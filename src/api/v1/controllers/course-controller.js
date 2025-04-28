@@ -115,7 +115,10 @@ const copyCourse = async (adminToken, accessToken, course) => {
 
 	console.log({ contents })
 
+	const { error: deleteError } = await deleteCourseUsers(accessToken, id, userId)
+	if (deleteError) return { error: deleteError }
 
+	
 	return { contents }
 }
 
@@ -158,9 +161,11 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 	const { results } = json
 	console.log({ results })
 
-	const users = results.filter(({ userId }) => userId !== instructorId).map(({ id }) => id)
+	const users = results.filter(({ userId }) => userId !== instructorId).map(({ userId }) => userId)
 	// if no users found, return successfully
 	if (!users.length) return { success: true }
+
+	console.log({ users })
 
 	const promises = users.map(userId => {
 		const url = `${apiUrl}/v1/courses/${courseId}/users/${userId}`
@@ -171,13 +176,26 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 				'Content-Type': 'application/json'
 			}
 		}
-		// const result = fetch(url, options)
-		// const { ok, status } = result
 
-		// if (!ok) return { error: { status, message: 'Could not delete course user' } }
-		// return { success: true }
+		return fetch(url, options)
 	})
 
+	const promiseResults = await Promise.all(promises)
+
+	promiseResults.forEach(result => {
+		const { ok, status } = result
+		if (!ok) console.error(`Error deleting course user: ${status}`)
+		else console.log(`Deleted course user: ${status}`)
+	})
+
+	const errors = promiseResults.filter(result => !result.ok).map(async result => {
+		const { status } = result
+		return { status, message: 'Could not delete course user' }
+	})
+
+	if (errors.length) return { error: errors[0] }
+
+	return { success: true }
 
 }
 
