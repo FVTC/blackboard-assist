@@ -43,8 +43,8 @@ describe('Term Controller', () => {
 	after(restoreFetch)
 
 	it('should return the current term (can be empty string)', async () => {
-		const currentTerm = await controller.getCurrentTerm()
-		assert.ok(currentTerm === '' || currentTerm)
+		const termId = await controller.getCurrentTermId()
+		assert.ok(termId === '' || termId)
 	})
 
 	it('should return all terms for a valid access token without description', async () => {
