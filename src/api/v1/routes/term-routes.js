@@ -15,7 +15,8 @@ const { parseTermCSV } = require('../utils/parse-term-csv')
 const authMiddleware = checkAuthentication()
 
 const dataDirectory = path.join(__dirname, '..', '..', '..', '..', 'data')
-const filepath = path.join(dataDirectory, 'available-courses.json')
+const availableCoursesPath = path.join(dataDirectory, 'available-courses.json')
+const currentTermPath = path.join(dataDirectory, 'current-term.json')
 
 const storage = multer.memoryStorage()
 const upload = multer({
@@ -36,9 +37,12 @@ router.get('/', authMiddleware, async (request, response) => {
 })
 
 
-router.post('/upload', authMiddleware, upload.single('file'), async (request, response) => {
+router.post('/update', authMiddleware, upload.single('file'), async (request, response) => {
 	const { file } = request
 	if (!file) return response.status(400).send('No file uploaded')
+
+	const { termId } = request.body
+	if (!termId) return response.status(400).send('No term ID provided')
 
 	try {
 		const results = await parseTermCSV(file.buffer)
@@ -55,15 +59,19 @@ router.post('/upload', authMiddleware, upload.single('file'), async (request, re
 			return acc
 		}, { })
 
-
-		fs.writeFileSync(filepath, JSON.stringify(reduced), 'utf8', error => {
-			if (error) return response.status(500).send('Error writing file')
+		fs.writeFileSync(availableCoursesPath, JSON.stringify(reduced), 'utf8', error => {
+			if (error) return response.status(500).send('Error writing available courses file')
 		})
 
-		return response.status(200).send('File processed successfully')
 	} catch (error) {
-		return response.status(500).send('Error reading file')
+		return response.status(500).send('Error reading available courses file')
 	}
+
+	fs.writeFileSync(currentTermPath, JSON.stringify(termId), 'utf8', error => {
+		if (error) return response.status(500).send('Error writing current term file')
+	})
+
+	response.status(200).send('File processed successfully')
 })
 
 router.get('/courses', authMiddleware, async (request, response) => {
@@ -72,10 +80,16 @@ router.get('/courses', authMiddleware, async (request, response) => {
 	const { instructorId, error } = await getInstructorId(accessToken)
 	if (error) return handleError(response, error)
 
-	const fileContents = fs.readFileSync(filepath, 'utf8')
+	const fileContents = fs.readFileSync(availableCoursesPath, 'utf8')
 	const json = JSON.parse(fileContents)
 	const courses = json[instructorId] || []
 	return response.status(200).json(courses)
+})
+
+router.get('/current-id', authMiddleware, async (request, response) => {
+	const { getCurrentTermId } = termController
+	const termId = await getCurrentTermId()
+	response.status(200).json({ termId })
 })
 
 router.post('/courses/copy', authMiddleware, async (request, response) => {

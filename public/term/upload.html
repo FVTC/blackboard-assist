@@ -11,17 +11,24 @@
 	<form action="/api/v1/terms/upload" enctype="multipart/form-data">
 		<label for="file">Choose file:</label>
 		<input type="file" id="file" name="file" required />
+		<label for="termId">Term ID:</label>
+		<input type="text" id="termId" name="termId" required />
 		<button type="submit">Upload</button>
 	</form>
 	<div id="responseMessage"></div>
 </body>
 <script>
+(async () => {
+	const termIdInput = document.getElementById('termId')
+	const response = await fetch('/api/v1/terms/current-id')
+	const { termId } = await response.json()
+	termIdInput.value = termId || ''
 
 	document.querySelector('form').addEventListener('submit', async event => {
 		event.preventDefault()
 		const formData = new FormData(event.target)
 		try {
-			const response = await fetch('/api/v1/terms/upload', {
+			const response = await fetch('/api/v1/terms/update', {
 				method: 'POST',
 				body: formData
 			})
@@ -39,7 +46,7 @@
 			document.getElementById('responseMessage').innerHTML = `<p>Error: ${error.message}</p>`
 		}
 	})
-
+})()
 </script>
 
 </html>
