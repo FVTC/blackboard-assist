@@ -12,10 +12,6 @@ router.get('/', redirectIfNotAuthenticated, (_, response) => {
 	response.sendFile('index.html', { root })
 })
 
-router.get('/test', redirectIfNotAuthenticated, (_, response) => {
-	response.sendFile('test.html', { root })
-})
-
 router.get('/scorm', redirectIfNotAuthenticated, (_, response) => {
 	response.sendFile('scorm.html', { root })
 })

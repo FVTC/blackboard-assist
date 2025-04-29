@@ -115,6 +115,10 @@ const copyCourse = async (adminToken, accessToken, course) => {
 
 	console.log({ contents })
 
+	const { error: deleteError } = await deleteCourseUsers(accessToken, id, userId)
+	if (deleteError) return { error: deleteError }
+
+	
 	return { contents }
 }
 
@@ -144,6 +148,55 @@ const getCourseNames = async (accessToken, termId) => {
 
 	const names = courses.map(({ id, name }) => ({ id, name }))
 	return { names }
+}
+
+const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
+	const url = `${apiUrl}/v1/courses/${courseId}/users`
+	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
+	const result = await fetch(url, options)
+
+	const { ok, status } = result
+	if (!ok) return { error: { status, message: 'Could not fetch course users' } }
+	const json = await result.json()
+	const { results } = json
+	console.log({ results })
+
+	const users = results.filter(({ userId }) => userId !== instructorId).map(({ userId }) => userId)
+	// if no users found, return successfully
+	if (!users.length) return { success: true }
+
+	console.log({ users })
+
+	const promises = users.map(userId => {
+		const url = `${apiUrl}/v1/courses/${courseId}/users/${userId}`
+		const options = {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'application/json'
+			}
+		}
+
+		return fetch(url, options)
+	})
+
+	const promiseResults = await Promise.all(promises)
+
+	promiseResults.forEach(result => {
+		const { ok, status } = result
+		if (!ok) console.error(`Error deleting course user: ${status}`)
+		else console.log(`Deleted course user: ${status}`)
+	})
+
+	const errors = promiseResults.filter(result => !result.ok).map(async result => {
+		const { status } = result
+		return { status, message: 'Could not delete course user' }
+	})
+
+	if (errors.length) return { error: errors[0] }
+
+	return { success: true }
+
 }
 
 
