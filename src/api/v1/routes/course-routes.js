@@ -76,9 +76,11 @@ router.patch('/:courseId/contents/scorms/:scormId/completed', authMiddleware, as
 	const { accessToken } = request.session
 	const { courseId, scormId } = request.params
 	const { studentIds } = request.body
-	const { markScormObjectComplete } = contentController
-	const { contents, error } = await markScormObjectComplete(accessToken, courseId, scormId, studentIds)
-	if (error) return handleError(response, error)
+	const { getGradeInfoForScorm, markScormObjectComplete } = contentController
+	const { gradeInfo, error: gradeError } = await getGradeInfoForScorm(accessToken, courseId, scormId)
+	if (gradeError) return handleError(response, gradeError)
+	const { contents, error: contentError } = await markScormObjectComplete(accessToken, courseId, studentIds, gradeInfo)
+	if (contentError) return handleError(response, contentError)
 	response.json(contents)
 })
 

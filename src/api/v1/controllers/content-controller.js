@@ -131,6 +131,7 @@ module.exports = {
 	getContents,
 	updateContentTitle,
 	getScormObjects,
+	getGradeInfoForScorm,
 	markScormObjectComplete,
 	addScormCompletionLink
 }
