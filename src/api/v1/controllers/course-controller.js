@@ -78,7 +78,7 @@ const pollForCopyCompletion = async (accessToken, path) => {
 	return await poll()
 }
 
-const copyCourse = async (adminToken, accessToken, course) => {
+const copyCourse = async (adminToken, accessToken, course, termId) => {
 	const { name, courseId, templateId } = course
 
 	const { userId } = await getUserId(accessToken)
@@ -110,7 +110,9 @@ const copyCourse = async (adminToken, accessToken, course) => {
 	console.log({ json })
 
 	const { id } = json
-	const { contents, updateError } = await updateCourse(accessToken, id, name, courseId)
+
+	const updates = { name, courseId, termId }
+	const { contents, updateError } = await updateCourse(accessToken, id, updates)
 	if (updateError) return { error: updateError }
 
 	console.log({ contents })
@@ -122,7 +124,9 @@ const copyCourse = async (adminToken, accessToken, course) => {
 	return { contents }
 }
 
-const updateCourse = async (accessToken, courseId, name, externalId) => {
+const updateCourse = async (accessToken, courseId, updates) => {
+	const { name, externalId, termId } = updates
+
 	const url = `${apiUrl}/v1/courses/${courseId}`
 	const options = {
 		method: 'PATCH',
@@ -130,7 +134,7 @@ const updateCourse = async (accessToken, courseId, name, externalId) => {
 			Authorization: `Bearer ${accessToken}`,
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ name, externalId })
+		body: JSON.stringify({ name, externalId, termId })
 	}
 
 	const result = await fetch(url, options)

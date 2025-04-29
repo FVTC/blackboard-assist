@@ -42,6 +42,11 @@ const mockTerms = [
 describe('Term Controller', () => {
 	after(restoreFetch)
 
+	it('should return the current term (can be empty string)', async () => {
+		const currentTerm = await controller.getCurrentTerm()
+		assert.ok(currentTerm === '' || currentTerm)
+	})
+
 	it('should return all terms for a valid access token without description', async () => {
 		global.fetch = async () => ({
 			...result200, json: async () => ({ results: mockTerms })

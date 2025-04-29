@@ -85,7 +85,11 @@ router.post('/courses/copy', authMiddleware, async (request, response) => {
 	const { accessToken: adminToken } = await getAccessToken()
 	const { name, courseId, templateId } = body
 	const { copyCourse } = courseController
-	const result = await copyCourse(adminToken, accessToken, { courseId, name, templateId })
+
+	const { getCurrentTermId } = termController
+	const termId = await getCurrentTermId()
+	const course = { courseId, name, templateId }
+	const result = await copyCourse(adminToken, accessToken, course, termId)
 	if (result.error) return handleError(response, result.error)
 	response.send(result)
 })

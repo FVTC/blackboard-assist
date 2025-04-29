@@ -18,8 +18,8 @@
 
 - [x] Set term in copied course
 - [x] Clean up course copies controller/routes
-- [ ] Set term with csv upload
 - [ ] Only admins can upload term .csv
+- [ ] Admin interface for updating current term
 
 - [x] Need tests for:
   - [x] User Controller
