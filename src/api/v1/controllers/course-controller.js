@@ -22,24 +22,6 @@ const getCourses = async (accessToken, termId) => {
 	return { courses }
 }
 
-// const assignInstructor = async (accessToken, courseId, instructorId) => {
-// 	const url = `${apiUrl}/v1/courses/${courseId}/users/${instructorId}`
-// 	const options = {
-// 		method: 'PUT',
-// 		headers: {
-// 			Authorization: `Bearer ${accessToken}`,
-// 			'Content-Type': 'application/json'
-// 		},
-// 		body: JSON.stringify({ courseRoleId: 'Instructor' })
-// 	}
-
-// 	const result = await fetch(url, options)
-// 	const { ok, status } = result
-// 	const json = await result.json()
-// 	if (!ok) return { error: { status, message: 'Could not assign instructor to course', json } }
-// 	return { json }
-// }
-
 const pollForCopyCompletion = async (accessToken, path) => {
 	const url = `${apiUrl}/${path}`
 	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -109,7 +91,6 @@ const copyCourse = async (adminToken, accessToken, course, termId) => {
 
 	const { error: deleteError } = await deleteCourseUsers(accessToken, id, userId)
 	if (deleteError) return { error: deleteError }
-
 	
 	return { contents }
 }
@@ -198,6 +179,7 @@ module.exports = {
 	getCourses,
 	getCourseNames,
 	copyCourse,
+	pollForCopyCompletion,
 	updateCourse,
 	deleteCourseUsers
 }

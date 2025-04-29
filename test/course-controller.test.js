@@ -98,56 +98,82 @@ describe('Course Controller', () => {
 		})
 	})
 
-	// describe('copyCourse', () => {
-	// 	it('should copy a course successfully', async () => {
-	// 		global.fetch = async (url, options) => {
-	// 			if (url.includes('/v2/courses/template-id/copy')) {
-	// 				return {
-	// 					ok: true,
-	// 					status: 200,
-	// 					headers: new Map([['location', '/v2/courses/copied-course']])
-	// 				}
-	// 			}
-	// 			if (url.includes('/v2/courses/copied-course')) {
-	// 				return {
-	// 					ok: true,
-	// 					status: 200,
-	// 					json: async () => ({ id: 'copied-course-id' })
-	// 				}
-	// 			}
-	// 			if (url.includes('/v1/courses/copied-course-id')) {
-	// 				return {
-	// 					ok: true,
-	// 					status: 200,
-	// 					json: async () => ({ name: 'Copied Course' })
-	// 				}
-	// 			}
-	// 			if (url.includes('/v1/users/me')) {
-	// 				return {
-	// 					ok: true,
-	// 					status: 200,
-	// 					json: async () => ({ id: 'user-id' })
-	// 				}
-	// 			}
-	// 		}
+	describe('pollForCopyCompletion', () => {
+		const { pollForCopyCompletion } = controller
 
-	// 		const { copyCourse } = controller
-	// 		const course = { name: 'Copied Course', courseId: 'course-id', templateId: 'template-id' }
-	// 		const { contents } = await copyCourse('admin-token', 'access-token', course)
-	// 		assert.ok(contents)
-	// 		assert.strictEqual(contents.name, 'Copied Course')
-	// 	})
+		it('should return the task result when the task completes successfully', async () => {
+			let callCount = 0;
+			global.fetch = async () => {
+				callCount++
+				if (callCount < 2) {
+					return {
+						...result200,
+						json: async () => ({ status: 'Running' })
+					}
+				}
+				return { ...result200, json: async () => ({ data: 'data' }) }
+			}
 
-	// 	it('should return an error if course copy fails', async () => {
-	// 		global.fetch = async () => ({
-	// 			ok: false,
-	// 			status: 400
-	// 		})
-	// 		const { copyCourse } = controller
-	// 		const course = { name: 'Copied Course', courseId: 'course-id', templateId: 'template-id' }
-	// 		const { error } = await copyCourse('admin-token', 'access-token', course)
-	// 		assert.ok(error)
-	// 		assert.strictEqual(error.message, 'Could not copy course')
-	// 	})
-	// })
+			const { json } = await pollForCopyCompletion('valid-token', 'task-path')
+			assert.ok(json)
+			assert.strictEqual(json.data, 'data')
+		})
+
+		it('should return an error if the task is not found', async () => {
+			global.fetch = async () => result400
+			const { error } = await pollForCopyCompletion('valid-token', 'invalid-task-path')
+			assert.ok(error);
+			assert.strictEqual(error.message, 'Task not found')
+		})
+	})
+
+	describe('copyCourse', () => {
+		const { copyCourse } = controller
+
+		it('should copy a course successfully', async () => {
+			global.fetch = async url => {
+				if (url.includes('/v2/courses/template-id/copy')) {
+					return {
+						ok: true,
+						status: 200,
+						headers: new Map([['location', '/v2/courses/copied-course']])
+					}
+				}
+				if (url.includes('/v2/courses/copied-course')) {
+					return {
+						ok: true,
+						status: 200,
+						json: async () => ({ id: 'copied-course-id' })
+					}
+				}
+				if (url.includes('/v1/courses/copied-course-id')) {
+					return {
+						ok: true,
+						status: 200,
+						json: async () => ({ name: 'Copied Course' })
+					}
+				}
+				if (url.includes('/v1/users/me')) {
+					return {
+						ok: true,
+						status: 200,
+						json: async () => ({ id: 'user-id' })
+					}
+				}
+			}
+
+			const [ course ] = mockCourses
+			const { contents } = await copyCourse('admin-token', 'access-token', course)
+			assert.ok(contents)
+			assert.strictEqual(contents.name, 'Copied Course')
+		})
+
+		it('should return an error if course copy fails', async () => {
+			global.fetch = async () => result400
+			const [ course ] = mockCourses
+			const { error } = await copyCourse('admin-token', 'access-token', course)
+			assert.ok(error)
+			assert.strictEqual(error.message, 'Could not copy course')
+		})
+	})
 })

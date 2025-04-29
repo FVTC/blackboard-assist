@@ -18,7 +18,6 @@ const getStudents = async (accessToken, courseId) => {
 	return { students }
 }
 
-
 const getUserId = async accessToken => {
 	const url = `${apiUrl}/v1/users/me`
 	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -30,24 +29,4 @@ const getUserId = async accessToken => {
 	return { userId: id }
 }
 
-// const getInstructorId = async accessToken => {
-// 	const url = `${apiUrl}/v1/users/me`
-// 	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
-// 	const result = await fetch(url, options)
-// 	const { ok, status } = result
-// 	if (!ok) return { error: { status, message: 'Could not find logged in user' } }
-
-// 	const json = await result.json()
-// 	const { userName } = json
-// 	if (!userName) return { error: { status: 500, message: 'Could not find user id' } }
-
-// 	const instructorId = userName
-
-// 	return { instructorId }
-// }
-
-module.exports = {
-	getStudents,
-	getUserId,
-	//getInstructorId
-}
+module.exports = { getStudents, getUserId }

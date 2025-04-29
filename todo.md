@@ -26,7 +26,8 @@
   - [x] Auth Controller 
   - [x] Content Controller
   - [ ] Course Controller
-    - [ ] getUserId
+    - [x] getCourses
+    - [x] getCourseNames
     - [ ] pollForCopyCompletion
     - [ ] copyCourse
     - [ ] updateCourse
