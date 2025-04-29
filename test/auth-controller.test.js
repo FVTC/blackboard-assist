@@ -1,4 +1,3 @@
-
 require('dotenv').config()
 
 const assert = require('node:assert')
@@ -79,6 +78,31 @@ describe('Auth Controller', () => {
 			assert.strictEqual(request.session.refreshToken, 'new-refresh-token')
 			assert.strictEqual(request.session.userId, 'user-id')
 			assert.ok(request.session.accessExpiration > Date.now())
+		})
+	})
+
+	describe('getAccessToken', () => {
+		it('should return an access token for valid client credentials', async () => {
+			global.fetch = async () => ({
+				ok: true,
+				status: 200,
+				json: async () => ({ access_token: 'valid-access-token' })
+			})
+			const { getAccessToken } = controller
+			const { accessToken } = await getAccessToken()
+			assert.ok(accessToken)
+			assert.strictEqual(accessToken, 'valid-access-token')
+		})
+
+		it('should return an error if authentication fails', async () => {
+			global.fetch = async () => ({
+				ok: false,
+				status: 401
+			})
+			const { getAccessToken } = controller
+			const { error } = await getAccessToken()
+			assert.ok(error)
+			assert.strictEqual(error.message, 'Authentication failed')
 		})
 	})
 })

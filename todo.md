@@ -16,9 +16,21 @@
 
 - [ ] Frontend interface for scorm generation
 
-- [ ] Set term in copied course
-- [ ] Clean up course copies controller/routes
+- [x] Set term in copied course
+- [x] Clean up course copies controller/routes
 - [ ] Set term with csv upload
 - [ ] Only admins can upload term .csv
+
+- [x] Need tests for:
+  - [x] User Controller
+  - [x] Auth Controller 
+  - [x] Content Controller
+  - [ ] Course Controller
+  - [ ] Term Controller
+
+- [ ] Routes that need documentation:
+  - [ ] /:courseId/contents/:contentId/scorms
+  - [ ] /:courseId/contents/scorms/:scormId/completed
+  - [ ] /:courseId/contents/:moduleId/scorms/add-link
 
 ### Future ?

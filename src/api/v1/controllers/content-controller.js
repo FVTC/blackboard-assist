@@ -61,12 +61,16 @@ const getGradeInfoForScorm = async (accessToken, courseId, scormId) => {
 	return { gradeInfo }
 }
 
-const markScormObjectComplete = async (accessToken, courseId, scormId, studentIds) => {
-	const { gradeInfo, error } = await getGradeInfoForScorm(accessToken, courseId, scormId)
-	if (error) return { error }
+const markScormObjectComplete = async (accessToken, courseId, studentIds, gradeInfo) => {
+	if (!studentIds || !studentIds.length) return { error: { status: 400, message: 'No students to mark' } }
+	if (!gradeInfo) return { error: { status: 400, message: 'No scorm grade info' } }
 
 	const { id, score } = gradeInfo
+	if (!id) return { error: { status: 400, message: 'No scorm id' } }
+	if (!score) return { error: { status: 400, message: 'No scorm score' } }
+
 	const { possible } = score
+	if (!possible) return { error: { status: 400, message: 'No scorm possible score' } }
 
 	const url = `${apiUrl}/v1/courses/${courseId}/gradebook/columns/${id}/users`
 	const options = {

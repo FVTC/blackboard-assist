@@ -2,11 +2,7 @@
 const { refreshAccessToken, updateSessionAuth } = require('../controllers/auth-controller')
 
 const defaultDependencies = { refreshAccessToken, updateSessionAuth }
-
-const handleError = (response, error) => {
-	const { status, message } = error
-	return response.status(status).send(message)
-}
+const { handleError } = require('../utils/handle-error')
 
 const checkAuthentication = dependencies => async (request, response, next) => {
 	const { refreshAccessToken, updateSessionAuth } = dependencies || defaultDependencies

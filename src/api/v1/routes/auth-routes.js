@@ -2,11 +2,8 @@
 const router = require('express').Router()
 
 const { exchangeCodeForToken, updateSessionAuth } = require('../controllers/auth-controller')
+const { handleError } = require('../utils/handle-error')
 
-const handleError = (response, error) => {
-	const { status, message } = error
-	return response.status(status).send(message)
-}
 
 router.get('/code', async (request, response) => {
 	const { code } = request.query

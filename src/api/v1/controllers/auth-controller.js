@@ -10,7 +10,7 @@ const getAccessToken = async () => {
 	const grant_type = 'client_credentials'
 	const params = { grant_type }
 	/* eslint-enable camelcase */
-	
+
 	const options = {
 		method: 'POST',
 		headers: {
@@ -23,10 +23,13 @@ const getAccessToken = async () => {
 	const result = await fetch(url, options)
 	const { ok, status } = result
 
-	const { access_token } = await result.json()
-	const accessToken = access_token
+	if (!ok) return { error: { status, message: 'Authentication failed' } }
 
-	if (!ok || !accessToken) return { error: { status, message: 'Authentication failed' } }
+	/* eslint-disable camelcase */
+	const { access_token: accessToken } = await result.json()
+	/* eslint-enable camelcase */
+
+	if (!accessToken) return { error: { status, message: 'Authentication failed' } }
 
 	return { accessToken }
 }
@@ -53,10 +56,9 @@ const exchangeCodeForToken = async code => {
 	const result = await fetch(url, options)
 	const { ok, status } = result
 
-	const authData = await result.json()
-	console.log({ code })
-
 	if (!ok) return { error: { status, message: 'Authentication failed' } }
+
+	const authData = await result.json()
 
 	return { authData }
 }

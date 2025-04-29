@@ -1,4 +1,3 @@
-
 require('dotenv').config()
 
 const assert = require('node:assert')
@@ -98,4 +97,57 @@ describe('Course Controller', () => {
 			assert.strictEqual(names[1].name, 'Course 2')
 		})
 	})
+
+	// describe('copyCourse', () => {
+	// 	it('should copy a course successfully', async () => {
+	// 		global.fetch = async (url, options) => {
+	// 			if (url.includes('/v2/courses/template-id/copy')) {
+	// 				return {
+	// 					ok: true,
+	// 					status: 200,
+	// 					headers: new Map([['location', '/v2/courses/copied-course']])
+	// 				}
+	// 			}
+	// 			if (url.includes('/v2/courses/copied-course')) {
+	// 				return {
+	// 					ok: true,
+	// 					status: 200,
+	// 					json: async () => ({ id: 'copied-course-id' })
+	// 				}
+	// 			}
+	// 			if (url.includes('/v1/courses/copied-course-id')) {
+	// 				return {
+	// 					ok: true,
+	// 					status: 200,
+	// 					json: async () => ({ name: 'Copied Course' })
+	// 				}
+	// 			}
+	// 			if (url.includes('/v1/users/me')) {
+	// 				return {
+	// 					ok: true,
+	// 					status: 200,
+	// 					json: async () => ({ id: 'user-id' })
+	// 				}
+	// 			}
+	// 		}
+
+	// 		const { copyCourse } = controller
+	// 		const course = { name: 'Copied Course', courseId: 'course-id', templateId: 'template-id' }
+	// 		const { contents } = await copyCourse('admin-token', 'access-token', course)
+	// 		assert.ok(contents)
+	// 		assert.strictEqual(contents.name, 'Copied Course')
+	// 	})
+
+	// 	it('should return an error if course copy fails', async () => {
+	// 		global.fetch = async () => ({
+	// 			ok: false,
+	// 			status: 400
+	// 		})
+	// 		const { copyCourse } = controller
+	// 		const course = { name: 'Copied Course', courseId: 'course-id', templateId: 'template-id' }
+	// 		const { error } = await copyCourse('admin-token', 'access-token', course)
+	// 		assert.ok(error)
+	// 		assert.strictEqual(error.message, 'Could not copy course')
+	// 	})
+	// })
 })

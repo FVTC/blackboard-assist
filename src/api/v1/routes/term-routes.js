@@ -1,16 +1,16 @@
-
 const fs = require('fs')
 const path = require('path')
-const csv = require('csv-parser')
 const multer = require('multer')
-const { Readable } = require('stream')
 const router = require('express').Router()
 
 const authController = require('../controllers/auth-controller')
 const termController = require('../controllers/term-controller')
 const courseController = require('../controllers/course-controller')
+const userController = require('../controllers/user-controller')
 
 const { checkAuthentication } = require('../middleware/auth-middleware')
+const { handleError } = require('../utils/handle-error')
+const { parseTermCSV } = require('../utils/parse-term-csv')
 
 const authMiddleware = checkAuthentication()
 
@@ -27,11 +27,6 @@ const upload = multer({
 	}
 })
 
-const handleError = (response, error) => {
-	const { status, message } = error
-	return response.status(status).send(message)
-}
-
 router.get('/', authMiddleware, async (request, response) => {
 	const { accessToken } = request.session
 	const { getTerms } = termController
@@ -40,24 +35,13 @@ router.get('/', authMiddleware, async (request, response) => {
 	response.json(terms)
 })
 
-const parseCSV = buffer => {
-	return new Promise((resolve, reject) => {
-		const results = []
-		const stream = Readable.from(buffer)
-
-		stream.pipe(csv())
-			.on('data', data => results.push(data))
-			.on('end', () => resolve(results))
-			.on('error', reject)
-	})
-}
 
 router.post('/upload', authMiddleware, upload.single('file'), async (request, response) => {
 	const { file } = request
 	if (!file) return response.status(400).send('No file uploaded')
 
 	try {
-		const results = await parseCSV(file.buffer)
+		const results = await parseTermCSV(file.buffer)
 		const reduced = results.reduce((acc, { Code, Username, Title, UserTypeID }) => {
 			if (UserTypeID !== '3') return acc // Skip non-instructors
 
@@ -82,25 +66,9 @@ router.post('/upload', authMiddleware, upload.single('file'), async (request, re
 	}
 })
 
-const getInstructorId = async accessToken => {
-	const url = `${process.env.BLACKBOARD_API_URL}/v1/users/me`
-	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
-
-	const result = await fetch(url, options)
-	const { ok, status } = result
-	if (!ok) return { error: { status, message: 'Could not find logged in user' } }
-
-	const json = await result.json()
-	const { userName } = json
-	if (!userName) return { error: { status: 500, message: 'Could not find user id' } }
-
-	const instructorId = userName
-
-	return { instructorId }
-}
-
 router.get('/courses', authMiddleware, async (request, response) => {
 	const { accessToken } = request.session
+	const { getInstructorId } = userController
 	const { instructorId, error } = await getInstructorId(accessToken)
 	if (error) return handleError(response, error)
 

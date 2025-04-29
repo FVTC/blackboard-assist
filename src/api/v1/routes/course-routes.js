@@ -1,18 +1,14 @@
-
 const router = require('express').Router()
 
 const courseController = require('../controllers/course-controller')
-const studentController = require('../controllers/student-controller')
+const userController = require('../controllers/user-controller')
 const contentController = require('../controllers/content-controller')
 
 const { checkAuthentication } = require('../middleware/auth-middleware')
+const { handleError } = require('../utils/handle-error')
 
 const authMiddleware = checkAuthentication()
 
-const handleError = (response, error) => {
-	const { status, message } = error
-	return response.status(status).send(message)
-}
 
 router.get('/', authMiddleware, async (request, response) => {
 	const { accessToken } = request.session
@@ -33,7 +29,7 @@ router.get('/names', authMiddleware, async (request, response) => {
 router.get('/:courseId/students', authMiddleware, async (request, response) => {
 	const { accessToken } = request.session
 	const { courseId } = request.params
-	const { getStudents } = studentController
+	const { getStudents } = userController
 	const { students, error } = await getStudents(accessToken, courseId)
 	if (error) return handleError(response, error)
 	response.json(students)
@@ -66,9 +62,6 @@ router.patch('/:courseId/contents/:contentId', authMiddleware, async (request, r
 	if (error) return handleError(response, error)
 	response.json(contents)
 })
-
-
-// todo: add tests and docs for following routes
 
 router.get('/:courseId/contents/:contentId/scorms', authMiddleware, async (request, response) => {
 	const { accessToken } = request.session
