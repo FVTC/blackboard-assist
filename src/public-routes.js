@@ -32,8 +32,8 @@ router.get('/scorm/complete', redirectIfNotAuthenticated, (_, response) => {
 	response.sendFile('scorm/complete.html', { root })
 })
 
-router.get('/term/upload', redirectIfNotAuthenticated, (_, response) => {
-	response.sendFile('term/upload.html', { root })
+router.get('/term/update', redirectIfNotAuthenticated, (_, response) => {
+	response.sendFile('term/update.html', { root })
 })
 
 router.get('/term/course-copy', redirectIfNotAuthenticated, (_, response) => {

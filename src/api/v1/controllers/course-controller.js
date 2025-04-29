@@ -22,16 +22,6 @@ const getCourses = async (accessToken, termId) => {
 	return { courses }
 }
 
-const getUserId = async accessToken => {
-	const url = `${apiUrl}/v1/users/me`
-	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
-	const result = await fetch(url, options)
-	const { ok, status } = result
-	if (!ok) return { error: { status, message: 'Could not find logged in user' } }
-	const { id } = await result.json()
-	return { userId: id }
-}
-
 // const assignInstructor = async (accessToken, courseId, instructorId) => {
 // 	const url = `${apiUrl}/v1/courses/${courseId}/users/${instructorId}`
 // 	const options = {
@@ -204,4 +194,10 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 }
 
 
-module.exports = { getCourses, getCourseNames, copyCourse }
+module.exports = {
+	getCourses,
+	getCourseNames,
+	copyCourse,
+	updateCourse,
+	deleteCourseUsers
+}

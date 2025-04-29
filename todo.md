@@ -26,11 +26,17 @@
   - [x] Auth Controller 
   - [x] Content Controller
   - [ ] Course Controller
+    - [ ] getUserId
+    - [ ] pollForCopyCompletion
+    - [ ] copyCourse
+    - [ ] updateCourse
+    - [ ] deleteCourseUsers
   - [ ] Term Controller
 
 - [ ] Routes that need documentation:
   - [ ] /:courseId/contents/:contentId/scorms
   - [ ] /:courseId/contents/scorms/:scormId/completed
   - [ ] /:courseId/contents/:moduleId/scorms/add-link
+  - [ ] /terms/current-id
 
 ### Future ?

@@ -87,40 +87,69 @@ describe('User Controller', () => {
 		})
 	})
 
-	describe('getInstructorId', () => {
-		it('should return instructor ID for a valid access token', async () => {
+	describe('getUserId', () => {
+		const { getUserId } = controller
+
+		it('should return the user ID for a valid access token', async () => {
 			global.fetch = async () => ({
-				ok: true,
-				status: 200,
-				json: async () => ({ userName: 'instructor-id' })
+				...result200, json: async () => ({ id: 'user-id' })
 			})
-			const { getInstructorId } = controller
-			const { instructorId } = await getInstructorId('valid-token')
-			assert.ok(instructorId)
-			assert.strictEqual(instructorId, 'instructor-id')
+			const { userId } = await getUserId('valid-token')
+			assert.ok(userId)
+			assert.strictEqual(userId, 'user-id')
 		})
 
-		it('should return an error if user ID cannot be found', async () => {
-			global.fetch = async () => ({
-				ok: true,
-				status: 200,
-				json: async () => ({})
-			})
-			const { getInstructorId } = controller
-			const { error } = await getInstructorId('valid-token')
+		it('should return an error if the token is invalid', async () => {
+			global.fetch = async () => result400
+			const { error } = await getUserId('invalid-token')
 			assert.ok(error)
-			assert.strictEqual(error.message, 'Could not find user id')
+			assert.strictEqual(error.message, 'Could not find logged in user')
 		})
 
-		it('should return an error for an invalid access token', async () => {
+		it('should return an error if the user is not found', async () => {
 			global.fetch = async () => ({
-				ok: false,
-				status: 401
+				...result200, json: async () => ({ })
 			})
-			const { getInstructorId } = controller
-			const { error } = await getInstructorId('invalid-token')
+			const { error } = await getUserId('valid-token')
 			assert.ok(error)
 			assert.strictEqual(error.message, 'Could not find logged in user')
 		})
 	})
+
+	// describe('getInstructorId', () => {
+	// 	it('should return instructor ID for a valid access token', async () => {
+	// 		global.fetch = async () => ({
+	// 			ok: true,
+	// 			status: 200,
+	// 			json: async () => ({ userName: 'instructor-id' })
+	// 		})
+	// 		const { getInstructorId } = controller
+	// 		const { instructorId } = await getInstructorId('valid-token')
+	// 		assert.ok(instructorId)
+	// 		assert.strictEqual(instructorId, 'instructor-id')
+	// 	})
+
+	// 	it('should return an error if user ID cannot be found', async () => {
+	// 		global.fetch = async () => ({
+	// 			ok: true,
+	// 			status: 200,
+	// 			json: async () => ({})
+	// 		})
+	// 		const { getInstructorId } = controller
+	// 		const { error } = await getInstructorId('valid-token')
+	// 		assert.ok(error)
+	// 		assert.strictEqual(error.message, 'Could not find user id')
+	// 	})
+
+	// 	it('should return an error for an invalid access token', async () => {
+	// 		global.fetch = async () => ({
+	// 			ok: false,
+	// 			status: 401
+	// 		})
+	// 		const { getInstructorId } = controller
+	// 		const { error } = await getInstructorId('invalid-token')
+	// 		assert.ok(error)
+	// 		assert.strictEqual(error.message, 'Could not find logged in user')
+	// 	})
+	// })
 })
