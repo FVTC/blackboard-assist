@@ -27,12 +27,13 @@
   - [x] Course Controller
   - [x] Term Controller
 
-- [ ] Routes that need documentation:
-  - [ ] /:courseId/contents/:contentId/scorms
-  - [ ] /:courseId/contents/scorms/:scormId/completed
-  - [ ] /:courseId/contents/:moduleId/scorms/add-link
-  - [ ] /terms/current-id
+- [x] Routes that need documentation:
+  - [x] /:courseId/contents/:contentId/scorms
+  - [x] /:courseId/contents/scorms/:scormId/completed
+  - [x] /:courseId/contents/:moduleId/scorms/add-link
+  - [x] /terms/current-id
 
 ### Future
 
 - [ ] Only admins can upload term .csv
+- [ ] Only admins can access the api docs
