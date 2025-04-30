@@ -26,7 +26,7 @@
   - [x] Auth Controller 
   - [x] Content Controller
   - [x] Course Controller
-  - [ ] Term Controller
+  - [x] Term Controller
 
 - [ ] Routes that need documentation:
   - [ ] /:courseId/contents/:contentId/scorms
