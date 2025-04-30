@@ -177,5 +177,131 @@
 				}
 			}
 		}
+	},
+	"/api/v1/courses/{courseId}/contents/{contentId}/scorms": {
+		"get": {
+			"tags": ["Courses"],
+			"summary": "Retrieve SCORM objects for specific content",
+			"parameters": [
+				{
+					"name": "courseId",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "string"
+					},
+					"description": "ID of the course"
+				},
+				{
+					"name": "contentId",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "string"
+					},
+					"description": "ID of the content"
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "List of SCORM objects"
+				},
+				"404": {
+					"description": "Content not found"
+				}
+			}
+		}
+	},
+	"/api/v1/courses/{courseId}/contents/scorms/{scormId}/completed": {
+		"patch": {
+			"tags": ["Courses"],
+			"summary": "Mark SCORM object as completed",
+			"parameters": [
+				{
+					"name": "courseId",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "string"
+					},
+					"description": "ID of the course"
+				},
+				{
+					"name": "scormId",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "string"
+					},
+					"description": "ID of the SCORM object"
+				}
+			],
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"studentIds": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "SCORM object marked as completed"
+				},
+				"400": {
+					"description": "Invalid input"
+				},
+				"404": {
+					"description": "SCORM object not found"
+				}
+			}
+		}
+	},
+	"/api/v1/courses/{courseId}/contents/{moduleId}/scorms/add-link": {
+		"post": {
+			"tags": ["Courses"],
+			"summary": "Add SCORM completion link",
+			"parameters": [
+				{
+					"name": "courseId",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "string"
+					},
+					"description": "ID of the course"
+				},
+				{
+					"name": "moduleId",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "string"
+					},
+					"description": "ID of the module"
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "SCORM completion link added"
+				},
+				"400": {
+					"description": "Invalid input"
+				},
+				"404": {
+					"description": "Module not found"
+				}
+			}
+		}
 	}
 }

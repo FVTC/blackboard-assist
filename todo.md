@@ -18,7 +18,6 @@
 
 - [x] Set term in copied course
 - [x] Clean up course copies controller/routes
-- [ ] Only admins can upload term .csv
 - [x] Admin interface for updating current term
 
 - [x] Need tests for:
@@ -34,4 +33,6 @@
   - [ ] /:courseId/contents/:moduleId/scorms/add-link
   - [ ] /terms/current-id
 
-### Future ?
+### Future
+
+- [ ] Only admins can upload term .csv

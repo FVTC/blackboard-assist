@@ -1,17 +1,105 @@
 {
-	"/api/v1/terms": {
-		"get": {
-			"tags": [
-				"Terms"
-			],
-			"summary": "Retrieve a list of terms",
-			"description": "Get the list of terms for the school.",
+	"/api/v1/terms/update": {
+		"post": {
+			"tags": ["Terms"],
+			"summary": "Update term data",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"multipart/form-data": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"file": {
+									"type": "string",
+									"format": "binary"
+								},
+								"termId": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
 			"responses": {
 				"200": {
-					"description": "List of terms"
+					"description": "Term data updated successfully"
+				},
+				"400": {
+					"description": "Invalid input"
+				},
+				"500": {
+					"description": "Server error"
+				}
+			}
+		}
+	},
+	"/api/v1/terms/courses": {
+		"get": {
+			"tags": ["Terms"],
+			"summary": "Retrieve courses for the current term",
+			"responses": {
+				"200": {
+					"description": "List of courses for the current term"
 				},
 				"401": {
 					"description": "Unauthorized access"
+				},
+				"500": {
+					"description": "Server error"
+				}
+			}
+		}
+	},
+	"/api/v1/terms/current-id": {
+		"get": {
+			"tags": ["Terms"],
+			"summary": "Retrieve the current term ID",
+			"responses": {
+				"200": {
+					"description": "Current term ID"
+				},
+				"500": {
+					"description": "Server error"
+				}
+			}
+		}
+	},
+	"/api/v1/terms/courses/copy": {
+		"post": {
+			"tags": ["Terms"],
+			"summary": "Copy a course to the current term",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"courseId": {
+									"type": "string"
+								},
+								"templateId": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Course copied successfully"
+				},
+				"400": {
+					"description": "Invalid input"
+				},
+				"500": {
+					"description": "Server error"
 				}
 			}
 		}
