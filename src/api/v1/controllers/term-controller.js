@@ -35,8 +35,4 @@ const getTerms = async (accessToken, includeDescription = false) => {
 	return { terms }
 }
 
-const getAvailableCourses = async accessToken => {
-
-}
-
-module.exports = { getTerms, getAvailableCourses, getCurrentTermId }
+module.exports = { getTerms, getCurrentTermId }

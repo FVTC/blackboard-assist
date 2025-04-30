@@ -15,7 +15,7 @@ const failDependencies = () => ({
 const failNext = () => assert.fail('next() should not be called')
 
 describe('Auth Middleware', () => {
-	it('should return 401 if there is no session', async () => {
+	it('should return an error code if there is no session', async () => {
 		const request = { session: null }
 		const response = { status: code => ({ send: message => ({ code, message }) }) }
 
@@ -26,7 +26,7 @@ describe('Auth Middleware', () => {
 		assert.strictEqual(result.message, 'Unauthorized')
 	})
 
-	it('should return 401 if there is no accessToken in the session', async () => {
+	it('should return an error code if there is no accessToken in the session', async () => {
 		const request = {
 			session: {
 				refreshToken: 'refresh-token',
@@ -43,7 +43,7 @@ describe('Auth Middleware', () => {
 		assert.strictEqual(result.message, 'Unauthorized')
 	})
 
-	it('should return 401 if accessToken is expired and refresh fails', async () => {
+	it('should return an error code if accessToken is expired and refresh fails', async () => {
 		const request = {
 			session: {
 				refreshToken: 'invalid-refresh-token',
