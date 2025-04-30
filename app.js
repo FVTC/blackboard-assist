@@ -4,9 +4,8 @@ require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const MemoryStore = require('memorystore')(session)
-const swaggerUi = require('swagger-ui-express')
-const swaggerDocument = require('./src/api/docs/swagger')
 
+const docRoutes = require('./src/api/doc-routes')
 const apiRoutes = require('./src/api/v1/api-routes')
 const publicRoutes = require('./src/public-routes')
 
@@ -23,12 +22,7 @@ app.use(session({
 	cookie: { maxAge: oneDay }
 }))
 
-
-const setupOptions = swaggerUi.setup(swaggerDocument, {
-	customSiteTitle: 'Blackboard Assist API Docs'
-})
-
-app.use('/api/docs', swaggerUi.serve, setupOptions)
+app.use('/api/docs', docRoutes)
 app.use('/api/v1', apiRoutes)
 app.use('/', publicRoutes)
 
