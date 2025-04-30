@@ -30,7 +30,8 @@ const pollForCopyCompletion = async (accessToken, url) => {
 
 	const poll = async () => {
 		try {
-			const result = await fetch(url, options)
+			const urlBase = process.env.BLACKBOARD_API_URL_BASE || ''
+			const result = await fetch(`${urlBase}${url}`, options)
 			const { ok } = result
 			if (!ok) return { error: { status: result.status, message: 'Task not found' } }
 

@@ -37,3 +37,4 @@
 
 - [ ] Only admins can upload term .csv
 - [ ] Only admins can access the api docs
+- [ ] Handle session expiration in frontend

@@ -76,12 +76,12 @@ router.post('/update', authMiddleware, upload.single('file'), async (request, re
 router.get('/courses', authMiddleware, async (request, response) => {
 	const { accessToken } = request.session
 	const { getUser } = userController
-	const { userId, error } = await getUser(accessToken)
+	const { userName, error } = await getUser(accessToken)
 	if (error) return handleError(response, error)
 
 	const fileContents = fs.readFileSync(availableCoursesPath, 'utf8')
 	const json = JSON.parse(fileContents)
-	const courses = json[userId] || []
+	const courses = json[userName] || []
 	return response.status(200).json(courses)
 })
 
