@@ -25,13 +25,7 @@
   - [x] User Controller
   - [x] Auth Controller 
   - [x] Content Controller
-  - [ ] Course Controller
-    - [x] getCourses
-    - [x] getCourseNames
-    - [ ] pollForCopyCompletion
-    - [ ] copyCourse
-    - [ ] updateCourse
-    - [ ] deleteCourseUsers
+  - [x] Course Controller
   - [ ] Term Controller
 
 - [ ] Routes that need documentation:

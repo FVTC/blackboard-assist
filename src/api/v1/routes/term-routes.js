@@ -62,7 +62,6 @@ router.post('/update', authMiddleware, upload.single('file'), async (request, re
 		fs.writeFileSync(availableCoursesPath, JSON.stringify(reduced), 'utf8', error => {
 			if (error) return response.status(500).send('Error writing available courses file')
 		})
-
 	} catch (error) {
 		return response.status(500).send('Error reading available courses file')
 	}
@@ -82,7 +81,7 @@ router.get('/courses', authMiddleware, async (request, response) => {
 
 	const fileContents = fs.readFileSync(availableCoursesPath, 'utf8')
 	const json = JSON.parse(fileContents)
-	const courses = json[instructorId] || []
+	const courses = json[userId] || []
 	return response.status(200).json(courses)
 })
 

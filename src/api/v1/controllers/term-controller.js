@@ -13,8 +13,7 @@ const getCurrentTermId = async () => {
 		if (file.trim() === '') return ''
 		const termId = JSON.parse(file)
 		return termId
-	}
-	catch (error) {
+	} catch (error) {
 		console.error('Error reading current term file:', error)
 		return ''
 	}

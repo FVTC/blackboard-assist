@@ -96,15 +96,16 @@ const displayPageError = message => {
 
 		const filterCourses = () => {
 			if (!courseSelect) return
-			
+
 			const selectedTermId = termSelect.value
 			if (!selectedTermId) return
 
 			courseSelect.innerHTML = `
 					<option value="">Select a course</option>
 					${courses
-						.filter(({ termId }) => selectedTermId === 'all' || termId === selectedTermId)
-						.map(({ id, name }) => `<option value="${id}">${name}</option>`).join('')}
+		.filter(({ termId }) => selectedTermId === 'all' || termId === selectedTermId)
+		.map(({ id, name }) => `<option value="${id}">${name}</option>`).join('')
+	}
 			`
 		}
 

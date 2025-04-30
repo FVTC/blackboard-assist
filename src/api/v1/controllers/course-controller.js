@@ -1,6 +1,8 @@
 
 const apiUrl = process.env.BLACKBOARD_API_URL
 
+const { getUserId } = require('./user-controller')
+
 const getCourses = async (accessToken, termId) => {
 	const params = { expand: 'course', fields: 'course,courseRoleId' }
 	const queryString = new URLSearchParams(params).toString()
@@ -22,10 +24,8 @@ const getCourses = async (accessToken, termId) => {
 	return { courses }
 }
 
-const pollForCopyCompletion = async (accessToken, path) => {
-	const url = `${apiUrl}/${path}`
+const pollForCopyCompletion = async (accessToken, url) => {
 	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
-
 	const wait = async seconds => new Promise(resolve => setTimeout(resolve, seconds * 1000))
 
 	const poll = async () => {
@@ -52,6 +52,7 @@ const pollForCopyCompletion = async (accessToken, path) => {
 
 const copyCourse = async (adminToken, accessToken, course, termId) => {
 	const { name, courseId, templateId } = course
+	if (!name || !courseId || !templateId) return { error: { status: 400, message: 'Missing course data' } }
 
 	const { userId } = await getUserId(accessToken)
 	if (!userId) return { error: { status: 500, message: 'Could not find logged in user' } }
@@ -73,10 +74,8 @@ const copyCourse = async (adminToken, accessToken, course, termId) => {
 	const headers = Object.fromEntries(result.headers.entries())
 	const { location } = headers
 	if (!location) return { error: { status: 500, message: 'Could not find course location' } }
-	const [ , , , , ...rest ] = location.split('/')
-	const path = rest.join('/')
 
-	const { json, error: pollError } = await pollForCopyCompletion(adminToken, path)
+	const { json, error: pollError } = await pollForCopyCompletion(adminToken, location)
 	if (pollError) return { error: pollError }
 
 	console.log({ json })
@@ -91,7 +90,7 @@ const copyCourse = async (adminToken, accessToken, course, termId) => {
 
 	const { error: deleteError } = await deleteCourseUsers(accessToken, id, userId)
 	if (deleteError) return { error: deleteError }
-	
+
 	return { contents }
 }
 
@@ -155,7 +154,9 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 		return fetch(url, options)
 	})
 
-	const promiseResults = await Promise.all(promises)
+	const promiseResults = (await Promise.all(promises)).filter(Boolean)
+
+	console.log({ promiseResults })
 
 	promiseResults.forEach(result => {
 		const { ok, status } = result
@@ -163,15 +164,16 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 		else console.log(`Deleted course user: ${status}`)
 	})
 
-	const errors = promiseResults.filter(result => !result.ok).map(async result => {
+	const errors = promiseResults.filter(result => !result.ok).map(result => {
 		const { status } = result
 		return { status, message: 'Could not delete course user' }
 	})
 
+	console.log({ errors })
+
 	if (errors.length) return { error: errors[0] }
 
 	return { success: true }
-
 }
 
 
