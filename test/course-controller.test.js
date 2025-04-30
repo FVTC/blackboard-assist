@@ -142,7 +142,6 @@ describe('Course Controller', () => {
 
 		it('should copy a course with no users successfully', async () => {
 			global.fetch = async url => {
-				console.log('Fetching URL:', url, '<-------')
 				if (url.endsWith('/v1/users/me')) {
 					return { ...result200, json: async () => ({ id: 'user-id' }) }
 				}

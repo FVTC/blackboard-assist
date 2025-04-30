@@ -36,7 +36,7 @@ const pollForCopyCompletion = async (accessToken, url) => {
 
 			const json = await result.json()
 			const { status } = json
-			console.log({ status })
+			// console.log({ status })
 
 			if (!status) return { json }
 			await wait(status === 'Running' ? 10 : 60)
@@ -78,7 +78,7 @@ const copyCourse = async (adminToken, accessToken, course, termId) => {
 	const { json, error: pollError } = await pollForCopyCompletion(adminToken, location)
 	if (pollError) return { error: pollError }
 
-	console.log({ json })
+	// console.log({ json })
 
 	const { id } = json
 
@@ -86,7 +86,7 @@ const copyCourse = async (adminToken, accessToken, course, termId) => {
 	const { contents, updateError } = await updateCourse(accessToken, id, updates)
 	if (updateError) return { error: updateError }
 
-	console.log({ contents })
+	// console.log({ contents })
 
 	const { error: deleteError } = await deleteCourseUsers(accessToken, id, userId)
 	if (deleteError) return { error: deleteError }
@@ -133,13 +133,13 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 	if (!ok) return { error: { status, message: 'Could not fetch course users' } }
 	const json = await result.json()
 	const { results } = json
-	console.log({ results })
+	// console.log({ results })
 
 	const users = results.filter(({ userId }) => userId !== instructorId).map(({ userId }) => userId)
 	// if no users found, return successfully
 	if (!users.length) return { success: true }
 
-	console.log({ users })
+	// console.log({ users })
 
 	const promises = users.map(userId => {
 		const url = `${apiUrl}/v1/courses/${courseId}/users/${userId}`
@@ -156,12 +156,12 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 
 	const promiseResults = (await Promise.all(promises)).filter(Boolean)
 
-	console.log({ promiseResults })
+	// console.log({ promiseResults })
 
 	promiseResults.forEach(result => {
 		const { ok, status } = result
 		if (!ok) console.error(`Error deleting course user: ${status}`)
-		else console.log(`Deleted course user: ${status}`)
+		// else console.log(`Deleted course user: ${status}`)
 	})
 
 	const errors = promiseResults.filter(result => !result.ok).map(result => {
@@ -169,10 +169,9 @@ const deleteCourseUsers = async (accessToken, courseId, instructorId) => {
 		return { status, message: 'Could not delete course user' }
 	})
 
-	console.log({ errors })
+	// console.log({ errors })
 
 	if (errors.length) return { error: errors[0] }
-
 	return { success: true }
 }
 

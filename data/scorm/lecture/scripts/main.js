@@ -24,7 +24,7 @@ import { initializeTheme } from './theme.js'
 	let previousProgress = 0
 
 	const completionBar = settings.misc.completionBar || 'none'
-	console.log('Completion Bar', completionBar)
+	// console.log('Completion Bar', completionBar)
 
 	window.moveTo(0, 0)
 	window.resizeTo(screen.availWidth, screen.availHeight)
@@ -39,9 +39,9 @@ import { initializeTheme } from './theme.js'
 
 	const reducer = (acc, { adjustedDurationRaw }) => acc + adjustedDurationRaw - 1
 	const totalVideoDuration = Object.values(videos).reduce(reducer, 0)
-	console.log('Videos', { videos })
+	// console.log('Videos', { videos })
 
-	console.log({ settings })
+	// console.log({ settings })
 
 	const stopOtherVideos = currentVideoId => {
 		Object.entries(videos).forEach(([ videoId, { player } ]) => {
