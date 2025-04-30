@@ -1,1 +1,70 @@
-{"120123733":[{"courseId":"10628182-3-2025spring","name":"Visual Basic Programming 2 (Section 3)"},{"courseId":"10091152-1-2025spring","name":"Veterinary Surgical Nursing 2 (Section 1)"},{"courseId":"31409326-1-2025spring","name":"Veneering, Finishing & Joinery Methods (Section 1)"}],"120493240":[{"courseId":"10152111-2-2025spring","name":"C# Introduction to Programming (Section 2)"},{"courseId":"10152114-2-2025spring","name":"Computer Programming C++ (Section 2)"},{"courseId":"10152116-1-2025spring","name":"C# Intermediate Programming (Section 1)"},{"courseId":"10152114-1-2025spring","name":"Computer Programming C++ (Section 1)"},{"courseId":"10152134-2-2025spring","name":"Modern JavaScript (Section 2)"},{"courseId":"10152134-3-2025spring","name":"Modern JavaScript (Section 3)"}],"200184000":[{"courseId":"10449171-1-2025spring","name":"Trenching and Excavation Safety (Section 1)"},{"courseId":"31537305-1-2025spring","name":"Therapeutic Massage - Kinesiology (Section 1)"},{"courseId":"10660181-1-2025spring","name":"Technical Software Essentials (Section 1)"}],"500162037":[{"courseId":"10455124-1-2025spring","name":"Your Role in a Green Environment (Section 1)"},{"courseId":"10621114-22-2025spring","name":"Weld Symbols (Section 22)"},{"courseId":"10152105-5-2025spring","name":"Web Graphics, Introduction to (Section 5)"}]}
+{
+    "120123733": [
+        {
+            "courseId": "10628182-3-2025spring",
+            "name": "Visual Basic Programming 2 (Section 3)"
+        },
+        {
+            "courseId": "10091152-1-2025spring",
+            "name": "Veterinary Surgical Nursing 2 (Section 1)"
+        },
+        {
+            "courseId": "31409326-1-2025spring",
+            "name": "Veneering, Finishing & Joinery Methods (Section 1)"
+        }
+    ],
+    "120493240": [
+        {
+            "courseId": "10152111-2-2025spring",
+            "name": "C# Introduction to Programming (Section 2)"
+        },
+        {
+            "courseId": "10152114-2-2025spring",
+            "name": "Computer Programming C++ (Section 2)"
+        },
+        {
+            "courseId": "10152116-1-2025spring",
+            "name": "C# Intermediate Programming (Section 1)"
+        },
+        {
+            "courseId": "10152114-1-2025spring",
+            "name": "Computer Programming C++ (Section 1)"
+        },
+        {
+            "courseId": "10152134-2-2025spring",
+            "name": "Modern JavaScript (Section 2)"
+        },
+        {
+            "courseId": "10152134-3-2025spring",
+            "name": "Modern JavaScript (Section 3)"
+        }
+    ],
+    "200184000": [
+        {
+            "courseId": "10449171-1-2025spring",
+            "name": "Trenching and Excavation Safety (Section 1)"
+        },
+        {
+            "courseId": "31537305-1-2025spring",
+            "name": "Therapeutic Massage - Kinesiology (Section 1)"
+        },
+        {
+            "courseId": "10660181-1-2025spring",
+            "name": "Technical Software Essentials (Section 1)"
+        }
+    ],
+    "500162037": [
+        {
+            "courseId": "10455124-1-2025spring",
+            "name": "Your Role in a Green Environment (Section 1)"
+        },
+        {
+            "courseId": "10621114-22-2025spring",
+            "name": "Weld Symbols (Section 22)"
+        },
+        {
+            "courseId": "10152105-5-2025spring",
+            "name": "Web Graphics, Introduction to (Section 5)"
+        }
+    ]
+}

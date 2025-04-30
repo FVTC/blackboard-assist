@@ -7,11 +7,11 @@
 	<title>Scorm Generator</title>
 
 	<link rel="stylesheet" href="/styles/site.css">
-	<link rel="stylesheet" href="/styles/theme.css">
 	<link rel="stylesheet" href="/styles/scorm.css">
+	<link rel="stylesheet" href="/styles/theme.css">
 
-	<script src="/scripts/theme.js" type="module"></script>
 	<script src="/scripts/scorm.js" type="module"></script>
+	<script src="/scripts/theme.js" type="module"></script>
 </head>
 
 <body>
@@ -29,12 +29,218 @@
 		</section>
 		<section id="settings">
 			<h2>Settings</h2>
+
+			<details>
+				<summary>Score Settings</summary>
+				<div>
+					<div class="input-group">
+						<label for="maxScore">Max Score</label>
+						<input id="maxScore" type="number" min="1" max="100" value="100" />
+						<input id="maxScoreRange" type="range" min="1" max="100" value="100" />
+					</div>
+
+					<div class="input-group">
+						<label for="passingScore">
+							Passing Score
+							<span class="tooltip"
+								data-tooltip="When grading is set to Satisfaction in Blackboard, this score will determine pass/fail.">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+									xmlns="http://www.w3.org/2000/svg">
+									<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+									<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14"
+										font-family="Arial" fill="#007BFF">i</text>
+								</svg>
+							</span>
+						</label>
+						<input id="passingScore" type="number" min="1" max="100" value="100" />
+						<input id="passingScoreRange" type="range" min="1" max="100" value="100" />
+					</div>
+
+					<label>
+						<input type="checkbox" id="roundScore" checked />
+						Round Score
+						<span class="tooltip"
+							data-tooltip="If checked, the student's score will be rounded to the nearest whole number. Note: Partial points may still be awarded if the score in Blackboard doesn't match the Max Score above.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+					<label for="scoreMethod">Score Method</label>
+					<select id="scoreMethod">
+						<option value="videoProgress" selected>Total Video Progress</option>
+						<option value="pageProgress">Page Progress</option>
+						<option value="exerciseSubmissions">Exercise Submissions</option>
+					</select>
+					<label for="completionStatus">Completion Status</label>
+					<select id="completionStatus">
+						<option value="openedModule" selected>Opened Module</option>
+						<option value="pageProgress">Page Progress</option>
+						<option value="allExercisesSubmitted">All Exercises Submitted</option>
+						<option value="allVideosCompleted">All Videos Completed</option>
+						<option value="videoPercentage">Total Percentage of Videos Watched</option>
+					</select>
+
+					<div class="input-group">
+						<label for="videoCompletionPercent">Video Completion Percent</label>
+						<input id="videoCompletionPercent" type="number" min="1" max="100" value="100" />
+						<input type="range" min="1" max="100" value="100" />
+					</div>
+				</div>
+			</details>
+
+			<details>
+				<summary>Tracking Options</summary>
+				<div>
+					<label><input type="checkbox" id="pageProgress" checked />
+						Page Progress
+						<span class="tooltip" data-tooltip="Will log each time the student scrolls the page.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+					<label><input type="checkbox" id="videoProgress" checked />
+						Video Progress
+						<span class="tooltip"
+							data-tooltip="Will log each time the student starts, pauses, and completes a video.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+					<label><input type="checkbox" id="hintOpenings" checked />
+						Hint Openings
+						<span class="tooltip" data-tooltip="Will log each time the student opens an exercise hint.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+					<label><input type="checkbox" id="solutionOpenings" checked />
+						Solution Openings
+						<span class="tooltip" data-tooltip="Will log each time the student opens a solution.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+					<label><input type="checkbox" id="codeCopies" checked />
+						Code Copies
+						<span class="tooltip"
+							data-tooltip="Will log each time the student copies code. Note: this will not log if the code is copied using keyboard shortcuts.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+				</div>
+			</details>
+			<details>
+				<summary>Miscellaneous</summary>
+				<div>
+					<label for="completionBar">
+						Completion Bar
+						<span class="tooltip"
+							data-tooltip="Completion bar should match the grading type (in Blackboard) otherwise it could be very confusing for students. If in doubt, choose None.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+					</label>
+					<select id="completionBar">
+						<option value="none" selected>None</option>
+						<option value="videoProgress">Video Progress</option>
+						<option value="pageProgress">Page Progress</option>
+						<option value="exerciseSubmissions">Exercise Submissions</option>
+					</select>
+					<label><input type="checkbox" id="disableContextMenu" /> Disable Context Menu</label>
+				</div>
+			</details>
+
+			<details>
+				<summary>Advanced</summary>
+				<div>
+					<label for="titleGeneration">Title Generation
+						<span class="tooltip"
+							data-tooltip="Each rule should go on a new line. Sequences should be delimited with '>'.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+					<textarea id="titleGeneration" rows="5"
+						placeholder="Enter title generation rules here..."></textarea>
+
+					<label for="fileNameGeneration">File Name Generation
+						<span class="tooltip"
+							data-tooltip="Each rule should go on a new line. Sequences should be delimited with '>'.">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" stroke="#007BFF" stroke-width="2" fill="none" />
+								<text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="14" font-family="Arial"
+									fill="#007BFF">i</text>
+							</svg>
+						</span>
+					</label>
+					<textarea id="fileNameGeneration" rows="5"
+						placeholder="Enter file name generation rules here..."></textarea>
+				</div>
+			</details>
+
+
+			<button id="saveSettings">Save Settings to Local Storage</button>
+			<button id="exportSettings">Export Settings (JSON)</button>
+			<button id="importSettings">Import Settings (JSON)</button>
 		</section>
 	</aside>
 	<main>
 		<h1>Scorm Generator</h1>
 		<p>Use this tool to generate scorm objects from fvtc.software webpages.</p>
+		<form action="/generate" method="post">
+			<span class="input-group">
+				<label for="pageUrl">Page Url</label>
+				<input id="pageUrl" type="text" required autocomplete="off" />
+				<button id="pasteUrl">Paste</button>
+			</span>
+			<span class="input-group">
+				<label for="title">Title</label>
+				<input id="title" type="text" required autocomplete="off" />
+				<button id="generateTitle">Generate from Url</button>
+			</span>
+			<span class="input-group">
+				<label for="fileName">File Name</label>
+				<input id="fileName" type="text" required autocomplete="off" />
+				<button id="generateFileName">Generate from Url</button>
+			</span>
 
+			<div style="display: flex; justify-content: center;">
+				<input type="submit" id="generateScorm" value="Generate Scorm Object" />
+			</div>
+		</form>
 	</main>
 </body>
 
