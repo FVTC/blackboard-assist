@@ -37,15 +37,15 @@ pasteUrlButton.addEventListener('click', async event => {
 	pageUrlInput.value = url
 })
 
-const errorMessage = `An error occurred while generating the title. Double-check your url and generation rules.`
+const errorMessage = 'An error occurred while generating the title. Double-check your url and generation rules.'
 
 const getUrlIfValid = () => {
 	const url = pageUrlInput.value.trim()
 	try {
+		// eslint-disable-next-line no-new
 		new URL(url)
 		return { url }
-	}
-	catch (error) { return { error } }
+	} catch (error) { return { error } }
 }
 
 const generateTitleButton = document.querySelector('#generateTitle')
@@ -83,7 +83,7 @@ document.querySelector('form').addEventListener('submit', event => {
 
 	const { target } = event
 
-	if (!target.checkValidity()) return 
+	if (!target.checkValidity()) return
 
 	const pageUrl = pageUrlInput.value
 	const title = titleInput.value

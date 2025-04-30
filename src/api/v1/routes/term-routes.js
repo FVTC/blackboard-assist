@@ -75,8 +75,8 @@ router.post('/update', authMiddleware, upload.single('file'), async (request, re
 
 router.get('/courses', authMiddleware, async (request, response) => {
 	const { accessToken } = request.session
-	const { getUserId } = userController
-	const { userId, error } = await getUserId(accessToken)
+	const { getUser } = userController
+	const { userId, error } = await getUser(accessToken)
 	if (error) return handleError(response, error)
 
 	const fileContents = fs.readFileSync(availableCoursesPath, 'utf8')

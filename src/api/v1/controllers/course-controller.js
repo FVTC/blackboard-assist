@@ -1,7 +1,7 @@
 
 const apiUrl = process.env.BLACKBOARD_API_URL
 
-const { getUserId } = require('./user-controller')
+const { getUser } = require('./user-controller')
 
 const getCourses = async (accessToken, termId) => {
 	const params = { expand: 'course', fields: 'course,courseRoleId' }
@@ -54,7 +54,7 @@ const copyCourse = async (adminToken, accessToken, course, termId) => {
 	const { name, courseId, templateId } = course
 	if (!name || !courseId || !templateId) return { error: { status: 400, message: 'Missing course data' } }
 
-	const { userId } = await getUserId(accessToken)
+	const { userId } = await getUser(accessToken)
 	if (!userId) return { error: { status: 500, message: 'Could not find logged in user' } }
 
 	const url = `${apiUrl}/v2/courses/${templateId}/copy`

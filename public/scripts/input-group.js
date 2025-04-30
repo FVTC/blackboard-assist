@@ -18,7 +18,7 @@ export const setupGroups = () => {
 
 export const getInputGroups = () => {
 	const elements = [ ...document.querySelectorAll('.input-group') ]
-	
+
 	const groups = elements.map(element => {
 		const slider = element.querySelector('input[type="range"]')
 		const number = element.querySelector('input[type="number"]')
@@ -40,13 +40,13 @@ export const limitPassingScore = () => {
 		if (passingScoreElement.value > maxScore) passingScoreElement.value = maxScore
 		if (passingScoreRangeElement.value > maxScore) passingScoreRangeElement.value = maxScore
 	}
-	
+
 	maxScoreElement.addEventListener('change', () => {
-		updateMax(parseInt(maxScoreElement.value))	
+		updateMax(parseInt(maxScoreElement.value))
 	})
 
 	maxScoreRangeElement.addEventListener('input', () => {
-		updateMax(parseInt(maxScoreElement.value))	
+		updateMax(parseInt(maxScoreElement.value))
 	})
 }
 

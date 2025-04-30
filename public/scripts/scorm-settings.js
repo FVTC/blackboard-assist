@@ -9,7 +9,7 @@ export const getFromForm = () => {
 			roundScore: settingsPanel.querySelector('#roundScore').checked,
 			scoreMethod: settingsPanel.querySelector('#scoreMethod').value,
 			completionStatus: settingsPanel.querySelector('#completionStatus').value,
-			videoCompletionPercent: parseInt(settingsPanel.querySelector('#videoCompletionPercent').value),
+			videoCompletionPercent: parseInt(settingsPanel.querySelector('#videoCompletionPercent').value)
 		},
 		tracking: {
 			pageProgress: settingsPanel.querySelector('#pageProgress').checked,
@@ -76,7 +76,7 @@ export const loadFromLocalStorage = () => {
 
 export const exportToJson = () => {
 	const settings = getFromForm()
-	const data = new Blob([JSON.stringify(settings)], { type: 'application/json' })
+	const data = new Blob([ JSON.stringify(settings) ], { type: 'application/json' })
 	const url = URL.createObjectURL(data)
 
 	const a = document.createElement('a')
@@ -106,10 +106,10 @@ export const importFromJson = () => {
 }
 
 export default {
-	getFromForm, 
-	restoreFrom, 
-	saveToLocalStorage, 
-	loadFromLocalStorage, 
-	exportToJson, 
-	importFromJson 
+	getFromForm,
+	restoreFrom,
+	saveToLocalStorage,
+	loadFromLocalStorage,
+	exportToJson,
+	importFromJson
 }

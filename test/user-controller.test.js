@@ -87,21 +87,23 @@ describe('User Controller', () => {
 		})
 	})
 
-	describe('getUserId', () => {
-		const { getUserId } = controller
+	describe('getUser', () => {
+		const { getUser } = controller
 
 		it('should return the user ID for a valid access token', async () => {
 			global.fetch = async () => ({
-				...result200, json: async () => ({ id: 'user-id' })
+				...result200, json: async () => ({ id: 'user-id', userName: 'user-name' })
 			})
-			const { userId } = await getUserId('valid-token')
+			const { userId, userName } = await getUser('valid-token')
 			assert.ok(userId)
+			assert.ok(userName)
 			assert.strictEqual(userId, 'user-id')
+			assert.strictEqual(userName, 'user-name')
 		})
 
 		it('should return an error if the token is invalid', async () => {
 			global.fetch = async () => result400
-			const { error } = await getUserId('invalid-token')
+			const { error } = await getUser('invalid-token')
 			assert.ok(error)
 			assert.strictEqual(error.message, 'Could not find logged in user')
 		})
@@ -110,7 +112,7 @@ describe('User Controller', () => {
 			global.fetch = async () => ({
 				...result200, json: async () => ({ })
 			})
-			const { error } = await getUserId('valid-token')
+			const { error } = await getUser('valid-token')
 			assert.ok(error)
 			assert.strictEqual(error.message, 'Could not find logged in user')
 		})
