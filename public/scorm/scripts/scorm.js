@@ -1,5 +1,5 @@
 
-import { setupGroups, forceUpdate, setupCompletionStatus, limitPassingScore } from './input-group.js'
+import { setupGroups, forceUpdate, setupCompletionStatus, limitPassingScore } from '../../scripts/input-group.js'
 import { generateTitleFromUrl, generateFileNameFromUrl } from './scorm-naming.js'
 import settings, { getFromForm } from './scorm-settings.js'
 

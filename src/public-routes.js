@@ -13,11 +13,15 @@ router.get('/', redirectIfNotAuthenticated, (_, response) => {
 })
 
 router.get('/scorm', redirectIfNotAuthenticated, (_, response) => {
-	response.sendFile('scorm.html', { root })
+	response.sendFile('scorm/index.html', { root })
 })
 
 router.post('/scorm/generate', redirectIfNotAuthenticated, (_, response) => {
 	response.status(404).send('Not yet implemented')
+})
+
+router.get('/scorm/complete', redirectIfNotAuthenticated, (_, response) => {
+	response.sendFile('scorm/complete.html', { root })
 })
 
 router.get('/module-rename', redirectIfNotAuthenticated, (_, response) => {
@@ -26,10 +30,6 @@ router.get('/module-rename', redirectIfNotAuthenticated, (_, response) => {
 
 router.get('/developer', redirectIfNotAuthenticated, (_, response) => {
 	response.sendFile('developer.html', { root })
-})
-
-router.get('/scorm/complete', redirectIfNotAuthenticated, (_, response) => {
-	response.sendFile('scorm/complete.html', { root })
 })
 
 router.get('/term/update', redirectIfNotAuthenticated, (_, response) => {

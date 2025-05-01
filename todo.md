@@ -15,6 +15,7 @@
 ## In Progress
 
 - [ ] Frontend interface for scorm generation
+- [ ] Generate scorm zip file
 
 - [x] Set term in copied course
 - [x] Clean up course copies controller/routes
