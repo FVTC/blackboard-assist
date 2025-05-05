@@ -17,6 +17,8 @@
 - [ ] Frontend interface for scorm generation
 - [ ] Generate scorm zip file
 
+- [ ] Implement refresh token
+
 - [x] Set term in copied course
 - [x] Clean up course copies controller/routes
 - [x] Admin interface for updating current term

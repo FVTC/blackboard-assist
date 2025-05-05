@@ -24,10 +24,19 @@
 				<img src="/images/theme/dark.svg" alt="Dark Theme">
 			</button>
 		</section>
+		<button>Logout</button>
 	</aside>
 	<main>
 		<a href="/module-rename">Module Rename Tool</a>
 		<a href="/term/course-copy">Course Copy Tool</a>
 	</main>
 </body>
+<script>
+	document.querySelector('aside button').addEventListener('click', async () => {
+		const result = await fetch('/logout', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' }
+		})
+	})
+</script>
 </html>
