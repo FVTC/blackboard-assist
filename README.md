@@ -34,10 +34,6 @@ SESSION_SECRET=your-session-secret
 BLACKBOARD_API_URL=https://your-blackboard-url/learn/api/public
 BLACKBOARD_CLIENT_ID=your-client-id
 BLACKBOARD_CLIENT_SECRET=your-client-secret
-
-TEST_ACCESS_TOKEN=test-access-token
-TEST_REFRESH_TOKEN=test-refresh-token
-TEST_USER_ID=test-user-id
 ```
 
 ## 📦 Usage & Setup
