@@ -14,10 +14,20 @@
 
 ## In Progress
 
+- [ ] Remove logout
+
 - [ ] Frontend interface for scorm generation
+  - [ ] Fix form alignment
+  - [ ] Fix theme buttons
+  - [ ] Fix settings spacing
+  - [ ] Fix score inputs
+  - [ ] Fix tracking option alignment
+  - [ ] Fix scorm generation button
+  - [ ] Fix textarea alignment
+  - [ ] Fix light theme button hover
 - [ ] Generate scorm zip file
 
-- [ ] Implement refresh token
+- [x] Implement refresh token
 
 - [x] Set term in copied course
 - [x] Clean up course copies controller/routes
@@ -40,4 +50,3 @@
 
 - [ ] Only admins can upload term .csv
 - [ ] Only admins can access the api docs
-- [ ] Handle session expiration in frontend

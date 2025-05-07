@@ -1,6 +1,6 @@
 
 export const getFromForm = () => {
-	const settingsPanel = document.querySelector('.settings-panel')
+	const settingsPanel = document.querySelector('#settings')
 
 	return {
 		score: {
