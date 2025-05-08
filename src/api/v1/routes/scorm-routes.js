@@ -1,22 +1,31 @@
 
+const fs = require('fs')
 const router = require('express').Router()
 
 const scormController = require('../controllers/scorm-controller')
 
 const { checkAuthentication } = require('../middleware/auth-middleware')
-const { handleError } = require('../utils/handle-error')
 
-router.post('/generate', checkAuthentication, async (request, response) => {
-	const { filename, title, pageUrl } = request.body
-	const settings = request.body.settings || {}
-	const type = request.body.type || 'lecture'
+router.get('/test', (_, request) => {
+    request.send({ message: 'Scorm test route' })
+})
 
-	try {
-		const result = await scormController.generateScorm({ filename, title, pageUrl }, settings, type)
-		response.status(200).json(result)
-	} catch (error) {
-		handleError(error, response)
-	}
+router.post('/generate', async (request, response) => {
+    const { body } = request
+	const { data } = body
+    const json = JSON.parse(data)
+    const { scorm, settings } = json
+
+    const { generateScorm } = scormController
+	const { outputPath, fileName } = await generateScorm(scorm, settings)
+
+	response.on('finish', () => {
+		fs.unlink(outputPath, () => console.log(`Deleted ${outputPath}`))
+	})
+
+	response.download(outputPath, fileName, error => {
+		if (error)console.log('Error sending file:', error)           
+	})
 })
 
 module.exports = router

@@ -88,11 +88,11 @@ document.querySelector('form').addEventListener('submit', event => {
 	const pageUrl = pageUrlInput.value
 	const title = titleInput.value
 	const fileName = fileNameInput.value
-	const scorms = [ { fileName, title, pageUrl } ]
+	const scorm = { fileName, title, pageUrl }
 	const settings = getFromForm()
 
 	const hiddenInput = document.createElement('input')
-	hiddenInput.value = JSON.stringify({ scorms, settings })
+	hiddenInput.value = JSON.stringify({ scorm, settings })
 	hiddenInput.type = 'hidden'
 	hiddenInput.name = 'data'
 
@@ -102,7 +102,7 @@ document.querySelector('form').addEventListener('submit', event => {
 })
 
 // only allow 1 settings panel to be open at a time
-const panels = document.querySelectorAll('.settings-panel details')
+const panels = document.querySelectorAll('#settings details')
 panels.forEach(panel => {
 	panel.addEventListener('toggle', () => {
 		if (!panel.open) return

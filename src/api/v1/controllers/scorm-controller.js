@@ -23,7 +23,8 @@ const getContentsOf = (directory, relativePath = '/') => {
 	return results
 }
 
-const generateScorm = async ({ filename, title, pageUrl }, settings, type = 'lecture') => {
+const generateScorm = async ({ fileName, title, pageUrl }, settings, type = 'lecture') => {
+
 	return new Promise((resolve, reject) => {
 		const settingsJson = JSON.stringify({ pageUrl, ...settings }, null, '\t')
 
@@ -32,12 +33,12 @@ const generateScorm = async ({ filename, title, pageUrl }, settings, type = 'lec
 			return { name, contents: contents.replaceAll('{{title}}', title) }
 		})
 
-		const endsWith = filename.endsWith('.zip') ? '' : '.zip'
+		const endsWith = fileName.endsWith('.zip') ? '' : '.zip'
 		const outputDirectory = path.join(__dirname, '..', 'generated')
-		const outputPath = path.join(outputDirectory, `${filename}${endsWith}`)
+		const outputPath = path.join(outputDirectory, `${fileName}${endsWith}`)
 		fs.mkdirSync(outputDirectory, { recursive: true })
 		const output = fs.createWriteStream(outputPath)
-		output.on('close', () => resolve({ outputPath }))
+		output.on('close', () => resolve({ outputPath, fileName }))
 
 		const archive = archiver('zip', { zlib: { level: 9 } })
 		archive.on('error', reject)
