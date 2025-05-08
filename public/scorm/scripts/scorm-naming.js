@@ -39,10 +39,10 @@ const applyUppercase = (text, application) => {
 const applyRules = (word, rules) => {
 	const ruleMap = {
 		replace: applyReplace,
+		lowercase: applyLowercase,
+		uppercase: applyUppercase,
 		'add-start': (word, application) => `${application}${word}`,
-		'add-end': (word, application) => `${word}${application}`,
-		'lowercase': applyLowercase,
-		'uppercase': applyUppercase
+		'add-end': (word, application) => `${word}${application}`
 	}
 
 	return rules.reduce((word, rule) => {
