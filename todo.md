@@ -14,7 +14,7 @@
 
 ## In Progress
 
-- [ ] Remove logout
+- [x] Remove logout
 
 - [x] Frontend interface for scorm generation
   - [x] Fix form alignment
@@ -25,7 +25,7 @@
   - [x] Fix scorm generation button
   - [x] Fix textarea alignment
 - [ ] Generate scorm zip file
-- [ ] Add "uppercase" and "lowercase" options to scorm title generation
+- [x] Add "uppercase" and "lowercase" options to scorm title generation
 
 - [x] Implement refresh token
 

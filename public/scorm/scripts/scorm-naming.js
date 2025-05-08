@@ -26,11 +26,23 @@ const applyReplace = (text, replacer) => {
 	return text.replace(regex, newWord)
 }
 
+const applyLowercase = (text, application) => {
+	const regex = new RegExp(application, 'gi')
+	return text.replace(regex, application.toLowerCase())
+}
+
+const applyUppercase = (text, application) => {
+	const regex = new RegExp(application, 'gi')
+	return text.replace(regex, application.toUpperCase())
+}
+
 const applyRules = (word, rules) => {
 	const ruleMap = {
 		replace: applyReplace,
 		'add-start': (word, application) => `${application}${word}`,
-		'add-end': (word, application) => `${word}${application}`
+		'add-end': (word, application) => `${word}${application}`,
+		'lowercase': applyLowercase,
+		'uppercase': applyUppercase
 	}
 
 	return rules.reduce((word, rule) => {
