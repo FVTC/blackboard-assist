@@ -17,6 +17,11 @@
 	/* default (dark) theme */
 	--color-text-primary: var(--color-light);
 	--color-body-background: var(--color-dark);
+
+
+	--color-textarea-background: var(--color-darker);
+	--color-textarea-border: var(--color-lighter);
+	--color-textarea-text: var(--color-light);
 	
 }
 
@@ -26,6 +31,9 @@ body.light {
 	--color-text-primary: var(--color-dark);
 	--color-body-background: var(--color-light);
 
+	--color-textarea-background: var(--color-lighter);
+	--color-textarea-border: var(--color-dark);
+	--color-textarea-text: var(--color-dark);
 }
 
 

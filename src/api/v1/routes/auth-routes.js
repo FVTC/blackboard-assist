@@ -13,7 +13,9 @@ router.get('/code', async (request, response) => {
 	if (error) return handleError(response, error)
 
 	updateSessionAuth(request, authData)
-	response.redirect('/')
+
+	const redirectTo = request?.session?.redirectTo || '/'
+	response.redirect(redirectTo)
 })
 
 router.post('/refresh', async (request, response) => {

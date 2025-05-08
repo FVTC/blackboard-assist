@@ -36,6 +36,9 @@ const redirectIfNotAuthenticated = (request, response, next) => {
 		`redirect_uri=${siteUrl}/api/v1/auth/code`
 	].join('&')
 
+	const { originalUrl } = request
+	request.session.redirectTo = originalUrl || '/'
+
 	const loginUrl = `${apiUrl}/v1/oauth2/authorizationcode?${params}`
 	response.redirect(loginUrl)
 }

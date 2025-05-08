@@ -32,7 +32,7 @@ export const getFromForm = () => {
 
 export const restoreFrom = settings => {
 	const { score, tracking, misc, advanced } = settings || loadFromLocalStorage() || { }
-	const settingsPanel = document.querySelector('.settings-panel')
+	const settingsPanel = document.querySelector('#settings')
 
 	// score settings
 	if (score) {
