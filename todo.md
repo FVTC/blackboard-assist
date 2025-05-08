@@ -25,6 +25,7 @@
   - [x] Fix scorm generation button
   - [x] Fix textarea alignment
 - [ ] Generate scorm zip file
+- [ ] Add "uppercase" and "lowercase" options to scorm title generation
 
 - [x] Implement refresh token
 
