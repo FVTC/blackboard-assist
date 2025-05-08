@@ -1,44 +1,19 @@
-/* styles.css */
 :root {
-	--bg-light: #f9f9f9;
-	--bg-dark: #1e1e1e;
-	--text-light: #333;
-	--text-dark: #ddd;
-	--panel-light: #fff;
-	--panel-dark: #2c2c2c;
-	--accent-gradient: var(--color-accent-blue);
+
+	/* default (dark) theme */
+	--color-tooltip-background: var(--color-dark);
+	--color-tooltip-text: var(--color-light);
 }
 
+/* body.light {
 
-body {
-	background-color: var(--bg-light);
-	color: var(--text-light);
-	font-family: Arial, sans-serif;
-	font-size: 1em;
-	margin: 0;
-	padding: 0;
-	transition: background 0.3s, color 0.3s;
-}
+} */
 
 h1 {
 	margin: 0;
 	font-size: 2rem;
 	display: block;
 	width: 100%;
-}
-
-.container {
-	display: flex;
-	max-width: 1400px;
-	align-items: flex-start;
-	margin: auto;
-	padding: 20px;
-	gap: 20px;
-
-	>* {
-		background: var(--panel-light);
-		box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-	}
 }
 
 aside {
@@ -54,88 +29,91 @@ aside {
 	gap: 10px;
 	padding: 10px;
 	border-radius: 10px;
-}
 
-#settings details {
-	background: var(--panel-light);
-	border: 1px solid var(--text-light);
-	margin: 0;
-	padding: 0;
-	transition: background 0.2s, color 0.2s;
-}
-
-#settings details[open] {
-	position: relative;
-	background: var(--panel-light);
-	border: 1px solid var(--panel-dark);
-}
-
-#settings summary {
-	cursor: pointer;
-	padding: 10px;
-}
-
-#settings details[open] summary {
-	background: var(--panel-dark);
-	color: #fff;
-}
-
-#settings details div {
-	width: calc(100% - 20px);
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	padding: 10px;
-
-	h1 {
-		width: 100%;
-		text-align: center;
-	}
-
-	div {
+	details {
+		font-size: 0.9rem;
+		background: rgba(255, 255, 255, 0.08);
+		border: 1px solid rgba(255, 255, 255, 0.35);
+		border-radius: 10px;
+		margin: 0;
 		padding: 0;
-		border: none;
-		flex-basis: 100%;
+		transition: background 0.2s, color 0.2s;
 	}
 
-	.checkbox-group {
+	details[open] {
+		position: relative;
+	}
+
+	summary {
+		font-size: 1.1rem;
+		cursor: pointer;
+		padding: 10px;
+	}
+
+	details div {
+		width: calc(100% - 20px);
 		display: flex;
 		flex-direction: column;
-		text-align: left;
+		gap: 20px;
+		padding: 10px;
 
-		label {
-			margin: 0.2rem 1rem;
-		}
-	}
-
-	.input-group {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		width: 100%;
-
-		label {
-			flex-grow: 1;
-			display: block;
-			flex-basis: 100%;
+		h1 {
 			width: 100%;
+			text-align: center;
 		}
 
-		input {
-			display: inline;
-			vertical-align: middle;
+		div {
+			padding: 0;
+			border: none;
+			flex-basis: 100%;
+		}
+
+		.checkbox-group {
+			display: flex;
+			flex-direction: column;
+			text-align: left;
+
+			label {
+				margin: 0.2rem 1rem;
+			}
+		}
+
+		.input-group {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			width: 100%;
+			gap: 1rem;
+
+			label {
+				flex-grow: 1;
+				display: block;
+				flex-basis: 100%;
+				width: 100%;
+			}
+
+			input {
+				display: inline;
+				vertical-align: middle;
+			}
+		}
+		
+		textarea {
+			width: calc(100% + 20px);
+			min-height: 100px;
+			display: block;
+			/* expand vertically only */
+			resize: vertical;
+			/* background-color: var(--color-textarea-background);
+			color: var(--color-textarea-text); */
+			font-size: 0.9rem;
 		}
 	}
-	
-	textarea {
-		width: 100%;
-		min-height: 100px;
-		display: block;
-	}
-}
 
-#settings button {
-	margin: 0 auto;
+	button {
+		margin: 0 auto;
+	}
+
 }
 
 .content {
@@ -178,14 +156,41 @@ aside {
 
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 900px;
+
+.input-group {
+		display: flex;
+		flex-direction: row; /* Arrange elements in a row */
+		align-items: center; /* Align elements vertically */
+		justify-content: space-between; /* Distribute space evenly */
+		gap: 1rem; /* Add spacing between elements */
+		width: 100%; /* Ensure input groups span the full width */
+	}
+
+	.input-group label {
+		width: 100px;
+	}
+
+	.input-group input {
+		width: 70%;
+	}
+
+	.input-group button {
+		width: 220px;
+	}
+}
+
 input,
 button {
+	font-size: 0.9rem;
 	padding: 10px 20px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	outline: none;
-	color: #333;
-	background-color: #e8f0fe;
 }
 
 input {
@@ -282,6 +287,7 @@ select {
 	margin-left: 5px;
 	width: 16px;
 	height: 16px;
+
 }
 
 .tooltip svg {
@@ -292,9 +298,9 @@ select {
 	content: attr(data-tooltip);
 	visibility: hidden;
 	width: 250px;
-	background-color: var(--panel-light);
-	color: var(--text-light);
-	border: 1px solid rgba(0, 0, 0, 0.2);
+	background-color: var(--color-tooltip-background);
+	color: var(--color-tooltip-text);
+	border: 1px solid rgba(255, 255, 255, 0.4);
 	text-align: left;
 	padding: 8px;
 	border-radius: 5px;
@@ -324,7 +330,7 @@ select {
 		display: none;
 	}
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
 	body {
         background-color: var(--bg-dark);
@@ -399,4 +405,4 @@ select {
 		background: #2196F3;
 	}
 
-}
+} */

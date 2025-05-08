@@ -16,15 +16,14 @@
 
 - [ ] Remove logout
 
-- [ ] Frontend interface for scorm generation
-  - [ ] Fix form alignment
-  - [ ] Fix theme buttons
-  - [ ] Fix settings spacing
-  - [ ] Fix score inputs
-  - [ ] Fix tracking option alignment
-  - [ ] Fix scorm generation button
-  - [ ] Fix textarea alignment
-  - [ ] Fix light theme button hover
+- [x] Frontend interface for scorm generation
+  - [x] Fix form alignment
+  - [x] Fix theme buttons
+  - [x] Fix settings spacing
+  - [x] Fix score inputs
+  - [x] Fix tracking option alignment
+  - [x] Fix scorm generation button
+  - [x] Fix textarea alignment
 - [ ] Generate scorm zip file
 
 - [x] Implement refresh token
