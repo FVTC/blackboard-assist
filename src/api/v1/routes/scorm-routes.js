@@ -4,12 +4,6 @@ const router = require('express').Router()
 
 const scormController = require('../controllers/scorm-controller')
 
-const { checkAuthentication } = require('../middleware/auth-middleware')
-
-router.get('/test', (_, request) => {
-    request.send({ message: 'Scorm test route' })
-})
-
 router.post('/generate', async (request, response) => {
     const { body } = request
 	const { data } = body

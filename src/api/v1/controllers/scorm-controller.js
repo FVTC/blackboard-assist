@@ -24,7 +24,6 @@ const getContentsOf = (directory, relativePath = '/') => {
 }
 
 const generateScorm = async ({ fileName, title, pageUrl }, settings, type = 'lecture') => {
-
 	return new Promise((resolve, reject) => {
 		const settingsJson = JSON.stringify({ pageUrl, ...settings }, null, '\t')
 
