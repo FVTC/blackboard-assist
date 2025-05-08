@@ -5,10 +5,10 @@ const router = require('express').Router()
 const { generateScorm } = require('../controllers/scorm-controller')
 
 router.post('/generate', async (request, response) => {
-    const { body } = request
+	const { body } = request
 	const { data } = body
-    const json = JSON.parse(data)
-    const { scorm, settings } = json
+	const json = JSON.parse(data)
+	const { scorm, settings } = json
 	const { outputPath, fileName } = await generateScorm(scorm, settings)
 
 	response.on('finish', () => {
@@ -16,7 +16,7 @@ router.post('/generate', async (request, response) => {
 	})
 
 	response.download(outputPath, fileName, error => {
-		if (error)console.log('Error sending file:', error)           
+		if (error)console.log('Error sending file:', error)
 	})
 })
 
