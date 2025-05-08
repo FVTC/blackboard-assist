@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const archiver = require('archiver')
 
-const templatesPath = path.join(__dirname, '..', 'data', 'scorm')
+const templatesPath = path.join(__dirname, '..', '..', '..', '..', 'data', 'scorm')
 
 const getContentsOf = (directory, relativePath = '/') => {
 	const directoryEntries = fs.readdirSync(directory, { withFileTypes: true })
@@ -47,6 +47,5 @@ const generateScorm = async ({ filename, title, pageUrl }, settings, type = 'lec
 		archive.finalize()
 	})
 }
-
 
 module.exports = { generateScorm }

@@ -16,10 +16,6 @@ router.get('/scorm', redirectIfNotAuthenticated, (_, response) => {
 	response.sendFile('scorm/index.html', { root })
 })
 
-router.post('/scorm/generate', redirectIfNotAuthenticated, (_, response) => {
-	response.status(404).send('Not yet implemented')
-})
-
 router.get('/scorm/complete', redirectIfNotAuthenticated, (_, response) => {
 	response.sendFile('scorm/complete.html', { root })
 })
