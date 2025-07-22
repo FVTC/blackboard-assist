@@ -36,7 +36,8 @@ const refreshAccessToken = async refreshToken => {
 	const url = `${apiUrl}/v1/oauth2/token`
 	/* eslint-disable camelcase */
 	const grant_type = 'refresh_token'
-	const params = { grant_type, refreshToken }
+	const refresh_token = refreshToken
+	const params = { grant_type, refresh_token }
 	/* eslint-enable camelcase */
 
 	const options = {
