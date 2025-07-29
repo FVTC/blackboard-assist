@@ -56,9 +56,8 @@ const updateModuleTitle = async (courseId, moduleId, title) => {
 		const termId = termSelect.value
 		courseContainer.innerHTML = ''
 		const filteredCourses = termId === 'all' ? courses : courses.filter(course => course.termId === termId)
-		if (!filteredCourses.length) {
-			return courseContainer.innerHTML = '<p>No courses found</p>'
-		}
+		if (!filteredCourses.length) return courseContainer.innerHTML = '<p>No courses found</p>'
+
 		filteredCourses.forEach(({ id, name, externalAccessUrl }) => {
 			const courseElement = document.createElement('div')
 			courseElement.className = 'course'
@@ -78,30 +77,34 @@ const updateModuleTitle = async (courseId, moduleId, title) => {
 			const button = courseElement.querySelector('.load-modules')
 			const modulesContainer = courseElement.querySelector('.modules')
 
-			button.addEventListener('click', async () => {
-				if (button.textContent === 'Unload Modules') {
-					modulesContainer.innerHTML = ''
-					button.textContent = 'Load Modules'
-					return
-				}
+			const params = new URLSearchParams(window.location.search)
+			const paramName = 'allowUpdateAll'
+			const allowUpdateAll = params.has(paramName) && params.get(paramName) !== 'false'
 
+			const loadCourseModules = async courseId => {
 				button.textContent = 'Loading...'
+				button.disabled = true
 
-				const { modules, error: modulesError } = await loadModules(id)
+				const { modules, error: modulesError } = await loadModules(courseId)
 				if (modulesError) {
 					const { status, message } = modulesError
+					button.textContent = 'Error'
+					button.disabled = false
 					return console.error(`Error ${status}: ${message}`)
 				}
 				modulesContainer.innerHTML = ''
 				if (!modules || !modules.length) {
 					modulesContainer.innerHTML = '<p>No modules found</p>'
 					button.textContent = 'Load Modules'
+					button.disabled = false
 					return
 				}
 
-				const courseId = id
+				button.disabled = false
 				const loadModuleButton = button
-				modules.forEach(({ id, title }) => {
+
+				const updateButtons = modules.reduce((acc, { id, title }) => {
+				// modules.forEach(({ id, title }) => {
 					const moduleElement = document.createElement('div')
 					moduleElement.className = 'module'
 					modulesContainer.appendChild(moduleElement)
@@ -125,6 +128,7 @@ const updateModuleTitle = async (courseId, moduleId, title) => {
 						input.value = newTitle
 						input.setAttribute('data-stored', newTitle)
 						input.classList.remove('changed')
+						button.disabled = true
 						button.innerText = 'Saved!'
 						setTimeout(() => { button.innerText = 'Update' }, 3000)
 					}
@@ -132,19 +136,61 @@ const updateModuleTitle = async (courseId, moduleId, title) => {
 					const input = moduleElement.querySelector('input')
 					const button = moduleElement.querySelector('.update')
 
-					input.addEventListener('change', () => {
+					// Initially disable the button since no changes have been made
+					button.disabled = true
+
+					// Debounce timer for input changes
+					let debounceTimer = null
+
+					const checkForChanges = () => {
 						const storedValue = input.getAttribute('data-stored')
 						const currentValue = input.value
 						console.log({ storedValue, currentValue })
-						input.classList.toggle('changed', currentValue !== storedValue)
+						const hasChanged = currentValue !== storedValue
+						input.classList.toggle('changed', hasChanged)
+						button.disabled = !hasChanged
+					}
+
+					// Use input event with debouncing for more responsive feedback
+					input.addEventListener('input', () => {
+						clearTimeout(debounceTimer)
+						debounceTimer = setTimeout(checkForChanges, 300) // 300ms delay
+					})
+
+					// Also check immediately on blur (when user clicks away)
+					input.addEventListener('blur', () => {
+						clearTimeout(debounceTimer)
+						checkForChanges()
 					})
 
 					input.addEventListener('keydown', e => {
-						if (e.key === 'Enter') onClick()
+						if (e.key === 'Enter' && !button.disabled) onClick()
 					})
 
 					button.addEventListener('click', onClick)
-				})
+
+					return [ ...acc, button ]
+				}, [])
+
+				if (allowUpdateAll && updateButtons.length) {
+					// add a button to update all modules at once
+					const updateAllButton = document.createElement('button')
+					updateAllButton.textContent = 'Update All'
+					updateAllButton.className = 'update-all'
+					modulesContainer.appendChild(updateAllButton)
+
+					updateAllButton.addEventListener('click', async () => {
+						updateButtons.forEach(button => button.click())
+					})
+				}
+			}
+
+			button.addEventListener('click', async () => {
+				if (button.textContent !== 'Unload Modules') return loadCourseModules(id)
+
+				modulesContainer.innerHTML = ''
+				button.textContent = 'Load Modules'
+				button.disabled = false
 			})
 		})
 	}
@@ -179,7 +225,7 @@ const updateModuleTitle = async (courseId, moduleId, title) => {
 				.map(line => line.trim())
 				.filter(line => line.length > 0)
 				.join('\n')
-			console.log(trimmedInput)
+			// console.log(trimmedInput)
 			const updatedSettings = { input: trimmedInput, delimiter }
 			localStorage.setItem(key, JSON.stringify(updatedSettings))
 		}
@@ -201,6 +247,7 @@ const updateModuleTitle = async (courseId, moduleId, title) => {
 					if (!find || !replace || !value.includes(find)) return
 
 					input.value = value.replaceAll(find, replace.trim())
+					input.dispatchEvent(new Event('input'))
 				})
 			})
 		})
