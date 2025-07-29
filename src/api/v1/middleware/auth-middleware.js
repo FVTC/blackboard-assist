@@ -1,5 +1,6 @@
 
 const { refreshAccessToken, updateSessionAuth } = require('../controllers/auth-controller')
+const { checkIsAdmin } = require('../controllers/user-controller')
 
 const defaultDependencies = { refreshAccessToken, updateSessionAuth }
 const { handleError } = require('../utils/handle-error')
@@ -43,5 +44,17 @@ const redirectIfNotAuthenticated = (request, response, next) => {
 	response.redirect(loginUrl)
 }
 
-module.exports = { checkAuthentication, redirectIfNotAuthenticated }
+const requireAdmin = async (request, response, next) => {
+	const accessToken = request?.session?.accessToken
+	if (!accessToken) return response.status(401).send('Unauthorized')
+
+	const { isAdmin, error } = await checkIsAdmin(accessToken)
+	if (error) return handleError(response, error)
+
+	if (!isAdmin) return response.status(403).send('Forbidden: Admin access required')
+
+	next()
+}
+
+module.exports = { checkAuthentication, redirectIfNotAuthenticated, requireAdmin }
 

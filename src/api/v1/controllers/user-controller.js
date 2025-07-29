@@ -29,5 +29,16 @@ const getUser = async accessToken => {
 	return { userId: id, userName }
 }
 
+const checkIsAdmin = async accessToken => {
+	const url = `${apiUrl}/v1/users/me`
+	const options = { headers: { Authorization: `Bearer ${accessToken}` } }
+	const result = await fetch(url, options)
+	const { ok, status } = result
+	if (!ok) return { error: { status, message: 'Could not fetch user information' } }
+	const { systemRoleIds } = await result.json()
+	const isAdmin = systemRoleIds && systemRoleIds.includes('BBAdmin')
+	return { isAdmin }
+}
 
-module.exports = { getStudents, getUser }
+
+module.exports = { getStudents, getUser, checkIsAdmin }

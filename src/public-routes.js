@@ -2,7 +2,7 @@
 const path = require('path')
 const express = require('express')
 
-const { redirectIfNotAuthenticated } = require('./api/v1/middleware/auth-middleware')
+const { redirectIfNotAuthenticated, requireAdmin } = require('./api/v1/middleware/auth-middleware')
 
 const router = express.Router()
 const root = path.join(__dirname, '..', 'public')
@@ -28,7 +28,7 @@ router.get('/developer', redirectIfNotAuthenticated, (_, response) => {
 	response.sendFile('developer.html', { root })
 })
 
-router.get('/term/update', redirectIfNotAuthenticated, (_, response) => {
+router.get('/term/update', redirectIfNotAuthenticated, requireAdmin, (_, response) => {
 	response.sendFile('term/update.html', { root })
 })
 
