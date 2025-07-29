@@ -36,7 +36,7 @@ const checkIsAdmin = async accessToken => {
 	const { ok, status } = result
 	if (!ok) return { error: { status, message: 'Could not fetch user information' } }
 	const { systemRoleIds } = await result.json()
-	const isAdmin = systemRoleIds && systemRoleIds.includes('BBAdmin')
+	const isAdmin = systemRoleIds && systemRoleIds.includes('SystemAdmin')
 	return { isAdmin }
 }
 
