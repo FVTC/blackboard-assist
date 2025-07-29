@@ -254,4 +254,24 @@ const updateModuleTitle = async (courseId, moduleId, title) => {
 	}
 
 	initializeFindAndReplace()
+
+	const initializeDetailsState = () => {
+		const details = document.querySelector('details')
+		if (!details) return
+
+		const key = 'video-details-open'
+		const storedState = localStorage.getItem(key)
+
+		// Set initial state from localStorage if it exists
+		if (storedState !== null) {
+			details.open = storedState === 'true'
+		}
+
+		// Save state whenever it changes
+		details.addEventListener('toggle', () => {
+			localStorage.setItem(key, details.open.toString())
+		})
+	}
+
+	initializeDetailsState()
 })()

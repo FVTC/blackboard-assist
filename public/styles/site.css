@@ -9,21 +9,32 @@
 	--color-dark: #161b22;
 	--color-darker: #0d1117;
 
-	--color-light: #acacac;
-	--color-lighter: #cfcfcf;
+	--color-medium-dark: #373c42;
+	--color-medium: #6e7680;
+	--color-medium-light: #b1b1b1;
+
+	--color-light: #d1d1d1;
+	--color-lighter: #e2e2e2;
 
 	--color-accent-blue: #1f6feb;
 	--color-accent-orange: #f9826c;
 
+	/* default button colors (dark gray) */
+	--color-button-background: var(--color-medium-dark);
+	--color-button-text: var(--color-light);
+	--color-button-border: var(--color-lighter);
+	
 	/* default (dark) theme */
 	--color-text-primary: var(--color-light);
 	--color-body-background: var(--color-dark);
 
-
 	--color-textarea-background: var(--color-darker);
-	--color-textarea-border: var(--color-lighter);
+	--color-textarea-border: var(--color-medium);
 	--color-textarea-text: var(--color-light);
-	
+
+	/* link colors */
+	--color-link: var(--color-accent-blue);
+
 }
 
 
@@ -35,6 +46,14 @@ body.light {
 	--color-textarea-background: var(--color-lighter);
 	--color-textarea-border: var(--color-dark);
 	--color-textarea-text: var(--color-dark);
+
+	/* link colors */
+	--color-link: var(--color-accent-blue);
+
+	/* button colors */
+	--color-button-background: var(--color-lighter);
+	--color-button-text: var(--color-dark);
+	--color-button-border: var(--color-dark);
 }
 
 
@@ -71,6 +90,7 @@ body {
 
 aside {
 	min-width: 280px;
+	max-width: 16%;
 	height: 100vh;
 	padding: 10px;
 }
@@ -82,8 +102,59 @@ main {
 	flex-direction: column;
 }
 
+a {
+	color: var(--color-link);
+	text-decoration: none;
+	transition: color 0.3s ease;
+	font-weight: bold;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+textarea {
+	width: calc(100% - 20px);
+	background-color: var(--color-textarea-background);
+	color: var(--color-textarea-text);
+	border: 1px solid var(--color-textarea-border);
+	padding: 8px;
+	border-radius: 4px;
+}
+
+input[type="text"] {
+	background-color: var(--color-textarea-background);
+	color: var(--color-textarea-text);
+	border: 1px solid var(--color-textarea-border);
+	padding: 4px 8px;
+	border-radius: 4px;
+}
+
+select {
+	background-color: var(--color-textarea-background);
+	color: var(--color-textarea-text);
+	border: 1px solid var(--color-textarea-border);
+	padding: 4px 8px;
+	border-radius: 4px;
+}
+
 button {
 	cursor: pointer;
+	background-color: var(--color-button-background);
+	color: var(--color-button-text);
+	border: 1px solid var(--color-button-border);
+	padding: 4px 6px;
+	border-radius: 4px;
+	margin: 0 4px;
+	transition: background-color 0.3s ease, color 0.3s ease
+}
+
+button:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+	background-color: var(--color-medium);
+	color: var(--color-medium-light);
+	border-color: var(--color-medium);
 }
 
 .video-container {
